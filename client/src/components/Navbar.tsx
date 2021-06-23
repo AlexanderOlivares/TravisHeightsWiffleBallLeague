@@ -4,21 +4,23 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      backgroundColor: "#f2e33b",
+      // backgroundColor: "#f2e33b",
+      backgroundColor: "#eed743",
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(1),
     },
     title: {
       flexGrow: 1,
+      textAlign: "center",
+    },
+    link: {
+      textDecoration: "none",
     },
   })
 );
@@ -31,13 +33,19 @@ function Navbar() {
       <AppBar className={classes.root} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/">HOME</Link>
+            <Link to="/" className={classes.link}>
+              HOME
+            </Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/games">GAMES</Link>
+            <Link to="/join" className={classes.link}>
+              JOIN
+            </Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/contact">CONTACT</Link>
+            <Link to="/contact" className={classes.link}>
+              CONTACT
+            </Link>
           </Typography>
         </Toolbar>
       </AppBar>
