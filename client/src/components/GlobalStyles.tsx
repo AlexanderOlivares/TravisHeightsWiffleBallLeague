@@ -1,5 +1,3 @@
-import bgImage from "../Assets/chainlink.jpeg";
-import wiffleBall2 from "../Assets/wiffleBall2.png";
 import wiffleBgMobile from "../Assets/wiffleBgMobile.png";
 
 const GlobalStyles = {
@@ -8,11 +6,11 @@ const GlobalStyles = {
     height: "100%",
     minWidth: "100vw",
     width: "100%",
-    margin: "0px",
+    marginTop: "70px",
     padding: "0px",
-    // backgroundImage: `url(${bgImage})`,
     backgroundImage: `url(${wiffleBgMobile})`,
     opacity: "0.9",
+    // backdropFilter: "opacity(80%)",
     // backgroundRepeat: "no-repeat",
     // backgroundSize: "cover",
     backgroundPosition: "center",
@@ -22,18 +20,17 @@ const GlobalStyles = {
   },
   button: {
     justify: "center",
+    opacity: "1",
   },
   card: {
     backgroundColor: "white",
-    // backgroundImage: `url(${wiffleBall2})`,
     opacity: "0.9",
-    backdropFilter: "blur(1px)",
+    backdropFilter: "blur(3px)",
     height: "100%",
     minHeight: "100vh",
     maxWidth: "100vw",
     width: "100%",
     padding: "0px",
-    // borderRadius: "5px",
   },
 };
 

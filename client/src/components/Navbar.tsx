@@ -9,11 +9,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      // backgroundColor: "#f2e33b",
       backgroundColor: "#eed743",
-    },
-    menuButton: {
-      marginRight: theme.spacing(1),
+      position: "-webkit-sticky",
     },
     title: {
       flexGrow: 1,
@@ -30,7 +27,7 @@ function Navbar() {
 
   return (
     <div>
-      <AppBar className={classes.root} position="static">
+      <AppBar className={classes.root}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link to="/" className={classes.link}>

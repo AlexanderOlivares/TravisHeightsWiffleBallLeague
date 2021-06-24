@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Typography, Box, Button } from "@material-ui/core";
 import GlobalStyles from "./GlobalStyles";
 
@@ -18,7 +17,12 @@ const Home = () => {
           </Typography>
         </Box>
         <Box textAlign="center">
-          <Button size="medium" variant="contained" color="primary">
+          <Button
+            style={GlobalStyles.button}
+            size="medium"
+            variant="contained"
+            color="primary"
+          >
             Join The League
           </Button>
         </Box>
