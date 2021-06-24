@@ -1,5 +1,7 @@
 import { Container, Typography, Box, Button } from "@material-ui/core";
 import GlobalStyles from "./GlobalStyles";
+import Map from "./Map";
+import ImageSlider from "./ImageSlider";
 
 const Home = () => {
   return (
@@ -27,12 +29,16 @@ const Home = () => {
           </Button>
         </Box>
       </Box>
-      <Box style={GlobalStyles.div}>pictures</Box>
       <Box style={GlobalStyles.div}>
-        <Typography align="center" variant="h6">
-          Where we play: Little Stacy Park in Travis Heights
+        <ImageSlider />
+      </Box>
+      <Box style={GlobalStyles.div}>
+        <Typography align="center" variant="h5">
+          We play at Little Stacy Park in Travis Heights
         </Typography>
-        map
+        <Box id="map">
+          <Map />
+        </Box>
       </Box>
     </Container>
   );

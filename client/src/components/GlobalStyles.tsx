@@ -1,4 +1,4 @@
-import wiffleBgMobile from "../Assets/wiffleBgMobile.png";
+import bgPhoto from "../Assets/bgPhoto.jpeg";
 
 const GlobalStyles = {
   container: {
@@ -8,26 +8,17 @@ const GlobalStyles = {
     width: "100%",
     marginTop: "70px",
     padding: "0px",
-    backgroundImage: `url(${wiffleBgMobile})`,
-    opacity: "0.9",
-    // backdropFilter: "opacity(80%)",
-    // backgroundRepeat: "no-repeat",
-    // backgroundSize: "cover",
+    background: `url(${bgPhoto})`,
     backgroundPosition: "center",
   },
   div: {
-    padding: "20%",
+    padding: "5%",
   },
   button: {
     justify: "center",
     opacity: "1",
   },
   card: {
-    backgroundColor: "white",
-    opacity: "0.9",
-    backdropFilter: "blur(3px)",
-    height: "100%",
-    minHeight: "100vh",
     maxWidth: "100vw",
     width: "100%",
     padding: "0px",
