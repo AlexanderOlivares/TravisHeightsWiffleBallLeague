@@ -40,8 +40,8 @@ function Navbar() {
             </Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/contact" className={classes.link}>
-              CONTACT
+            <Link to="/poll" className={classes.link}>
+              POLL
             </Link>
           </Typography>
         </Toolbar>

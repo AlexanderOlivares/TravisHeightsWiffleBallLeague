@@ -87,9 +87,9 @@ export default function Join() {
             </Box>
             <Box m={2}>
               <Typography align="center" variant="subtitle1">
-                (At the moment games are usually Sunday mornings or Sunday
-                evenings. We are thinking about adding games on Saturdays and
-                weeknights)
+                At the moment games are usually Sunday mornings or Sunday
+                evenings. We are thinking about adding games on Saturdays or
+                weeknights depending on availability.
               </Typography>
             </Box>
           </FormControl>
