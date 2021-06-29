@@ -2,6 +2,7 @@ import { Container, Typography, Box, Button } from "@material-ui/core";
 import GlobalStyles from "./GlobalStyles";
 import Map from "./Map";
 import ImageSlider from "./ImageSlider";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -25,7 +26,9 @@ const Home = () => {
             variant="contained"
             color="primary"
           >
-            Join The League
+            <Link to="/join" style={{ textDecoration: "none", color: "white" }}>
+              Join The League
+            </Link>
           </Button>
         </Box>
       </Box>

@@ -4,14 +4,20 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import GlobalStyles from "./GlobalStyles";
 
 export default function RadioButtonsGroup() {
-  const [value, setValue] = useState("female");
+  const [rsvp, setRsvp] = useState<string>(`Yes, I'll be there!`);
+  const [userEmail, setUserEmail] = useState<string>("");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setRsvp((event.target as HTMLInputElement).value);
+  };
+
+  const handleUserEmail = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setUserEmail(event.target.value);
   };
 
   return (
@@ -26,20 +32,19 @@ export default function RadioButtonsGroup() {
       </Box>
       <Box m={2} textAlign="center">
         <FormControl component="fieldset">
-          {/* <FormLabel component="legend">RSVP</FormLabel> */}
           <RadioGroup
             aria-label="RSVP"
-            name="gender1"
-            value={value}
+            value={rsvp}
+            name="RSVP"
             onChange={handleChange}
           >
             <FormControlLabel
-              value="female"
+              value="Yes, I'll be there!"
               control={<Radio />}
               label="Yes, I'll be there!"
             />
             <FormControlLabel
-              value="male"
+              value="Can't make it this week."
               control={<Radio />}
               label="Can't make it this week."
             />
@@ -48,17 +53,18 @@ export default function RadioButtonsGroup() {
       </Box>
       <Box textAlign="center" m={2}>
         <Box m={2}>
-          <TextField size="small" label="Email" variant="outlined" />
+          <TextField
+            onChange={handleUserEmail}
+            required
+            size="small"
+            label="Email"
+            variant="outlined"
+          />
         </Box>
         <Box>
           <Button size="medium" variant="contained" color="primary">
             Submit
           </Button>
-        </Box>
-        <Box m={2}>
-          <Typography variant="caption">
-            We will only email you about game and league information.
-          </Typography>
         </Box>
       </Box>
     </Box>

@@ -8,37 +8,43 @@ import FormLabel from "@material-ui/core/FormLabel";
 import GlobalStyles from "./GlobalStyles";
 
 export default function Join() {
-  const [input, setInput] = useState<{ name: string; email: string }>({
+  interface UserTextInput {
+    name: string;
+    email: string;
+  }
+
+  const [nameAndEmail, setNameAndEmail] = useState<UserTextInput>({
     name: "",
     email: "",
   });
+
   const [daysUserCanPlay, setDaysUserCanPlay] = useState<string[]>([]);
   const [checked, setChecked] = useState<Boolean>(false);
 
-  const handleCheckboxes = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxes = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const { value: selectedDay, checked }: { value: string; checked: boolean } =
       event.target;
 
-    setChecked(prev => !prev);
+    setChecked(Boolean);
 
     checked
       ? setDaysUserCanPlay([...daysUserCanPlay, selectedDay])
       : setDaysUserCanPlay(daysUserCanPlay.filter(day => day !== selectedDay));
   };
 
-  const handleNameAndEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log((event.target as HTMLInputElement).value);
+  const handleNameAndEmail = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const { name, value }: { name: string; value: string } = event.target;
-    // console.log(name, value);
-    // setInput(prev => {
-    //   return {
-    //     ...prev,
-    //     [name]: value,
-    //   };
-    // });
+    setNameAndEmail(prev => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
   };
-
-  // console.log(input);
 
   return (
     <Box style={GlobalStyles.card}>
@@ -53,16 +59,18 @@ export default function Join() {
       <Box m={2} textAlign="center">
         <Box m={2}>
           <TextField
+            required
             size="small"
-            label="Name"
+            name="name"
             variant="outlined"
             onChange={handleNameAndEmail}
           />
         </Box>
         <Box m={2}>
           <TextField
+            required
             size="small"
-            label="Email"
+            name="email"
             variant="outlined"
             onChange={handleNameAndEmail}
           />
@@ -71,7 +79,7 @@ export default function Join() {
           <FormControl component="fieldset">
             <FormLabel component="legend">
               <Typography align="center" variant="h6">
-                Select daysUserCanPlay you can play
+                Select days you can play
               </Typography>
             </FormLabel>
             <br></br>
@@ -168,7 +176,7 @@ export default function Join() {
               </FormGroup>
             </Box>
             <Box m={2} px="10%">
-              <Typography align="center" variant="caption">
+              <Typography align="center" variant="subtitle2">
                 At the moment games are usually Sunday mornings or Sunday
                 evenings. We are thinking about adding games on Saturdays or
                 weeknights depending on availability.
@@ -180,6 +188,11 @@ export default function Join() {
           <Button size="medium" variant="contained" color="primary">
             Join The League
           </Button>
+        </Box>
+        <Box m={2}>
+          <Typography variant="caption">
+            We will only email you about games and league information.
+          </Typography>
         </Box>
       </Box>
     </Box>
