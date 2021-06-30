@@ -1,5 +1,8 @@
 .env
 
+
+schema.sql
+
 /client/.env
 **/ *.env
 

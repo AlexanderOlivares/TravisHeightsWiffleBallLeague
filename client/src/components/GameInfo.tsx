@@ -5,6 +5,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import GlobalStyles from "./GlobalStyles";
+import ImageSlider from "./ImageSlider";
 
 export default function RadioButtonsGroup() {
   const [rsvp, setRsvp] = useState<string>(`Yes, I'll be there!`);
@@ -20,6 +21,8 @@ export default function RadioButtonsGroup() {
     setUserEmail(event.target.value);
   };
 
+  console.log(rsvp, userEmail);
+
   return (
     <Box style={GlobalStyles.card}>
       <Box>
@@ -30,7 +33,7 @@ export default function RadioButtonsGroup() {
           RSVP
         </Typography>
       </Box>
-      <Box m={2} textAlign="center">
+      <Box textAlign="center">
         <FormControl component="fieldset">
           <RadioGroup
             aria-label="RSVP"
@@ -66,6 +69,9 @@ export default function RadioButtonsGroup() {
             Submit
           </Button>
         </Box>
+      </Box>
+      <Box style={GlobalStyles.div}>
+        <ImageSlider />
       </Box>
     </Box>
   );

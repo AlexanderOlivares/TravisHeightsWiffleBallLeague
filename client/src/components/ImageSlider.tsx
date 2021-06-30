@@ -1,17 +1,7 @@
 import SimpleImageSlider from "react-simple-image-slider";
-import bgPhoto from "../Assets/bgPhoto.jpeg";
-import bgPhoto2 from "../Assets/bgPhoto2.jpeg";
-import chainlink from "../Assets/chainlink.jpeg";
-import wiffleBall from "../Assets/wiffleBall.png";
-import wiffleBall2 from "../Assets/wiffleBall2.png";
+import wifflepic from "../Assets/wifflepic.jpeg";
 
-const images = [
-  { url: `${chainlink}` },
-  { url: `${bgPhoto}` },
-  { url: `${bgPhoto2}` },
-  { url: `${wiffleBall}` },
-  { url: `${wiffleBall2}` },
-];
+const images = [{ url: `${wifflepic}` }];
 
 const ImageSlider = () => {
   return (
