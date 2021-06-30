@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { Typography, Box, TextField, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -20,6 +21,7 @@ export default function Join() {
 
   const [daysUserCanPlay, setDaysUserCanPlay] = useState<string[]>([]);
   const [checked, setChecked] = useState<Boolean>(false);
+  const [userJoined, setUserJoined] = useState<Boolean>(false);
 
   const handleCheckboxes = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -48,7 +50,6 @@ export default function Join() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit form");
     const { name, email }: { name: string; email: string } = nameAndEmail;
     try {
       const body: {
@@ -61,181 +62,191 @@ export default function Join() {
         daysUserCanPlay,
       };
 
-      // const response = await fetch(`http://localhost:5000/api/join`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(body),
-      // });
+      const response = await fetch(`http://localhost:5000/api/join`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
 
-      // if (response.ok) {
-      //   console.log(response.json());
-      // }
+      setUserJoined(true);
+      alert(await response.json());
     } catch (error) {
       console.error(error.message);
+      alert("Oops something went wrong. Please try again later.");
     }
   };
 
   return (
-    <Box style={GlobalStyles.card}>
-      <Box>
-        <Typography align="center" variant="h3">
-          Join The League
-        </Typography>
-        <Typography align="center" variant="h6">
-          Free to play and open to all!
-        </Typography>
-      </Box>
-      <form onSubmit={handleSubmit}>
-        <Box m={2} textAlign="center">
-          <Box m={2}>
-            <TextField
-              required
-              size="small"
-              name="name"
-              variant="outlined"
-              label="name"
-              onChange={handleNameAndEmail}
-            />
-          </Box>
-          <Box m={2}>
-            <TextField
-              required
-              type="email"
-              size="small"
-              name="email"
-              variant="outlined"
-              label="email"
-              onChange={handleNameAndEmail}
-            />
-          </Box>
-          <Box m={2}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">
-                <Typography align="center" variant="h6">
-                  Select days you can play
-                </Typography>
-              </FormLabel>
-              <br></br>
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <FormGroup aria-label="position" row={true}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Any"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Any"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Mon"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Mon"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Tues"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Tue"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Wed"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Wed"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Thur"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Thur"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Fri"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Fri"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Sat"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Sat"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={"Sun"}
-                        onChange={handleCheckboxes}
-                        color="primary"
-                      />
-                    }
-                    label="Sun"
-                    labelPlacement="top"
-                  />
-                </FormGroup>
-              </Box>
-              <Box m={2} px="10%">
-                <Typography align="center" variant="subtitle2">
-                  At the moment games are usually Sunday mornings or Sunday
-                  evenings. We are thinking about adding games on Saturdays or
-                  weeknights depending on availability.
-                </Typography>
-              </Box>
-            </FormControl>
-          </Box>
-          <Box m={3}>
-            <Button
-              type="submit"
-              size="medium"
-              variant="contained"
-              color="primary"
-            >
+    <>
+      {userJoined ? (
+        <Redirect to="/gameinfo" />
+      ) : (
+        <Box style={GlobalStyles.card}>
+          <Box>
+            <Typography align="center" variant="h3">
               Join The League
-            </Button>
-          </Box>
-          <Box m={2}>
-            <Typography variant="caption">
-              We will only email you about games and league information.
+            </Typography>
+            <Typography align="center" variant="h6">
+              Free to play and open to all!
             </Typography>
           </Box>
+          <form onSubmit={handleSubmit}>
+            <Box m={2} textAlign="center">
+              <Box m={2}>
+                <TextField
+                  required
+                  size="small"
+                  name="name"
+                  variant="outlined"
+                  label="name"
+                  onChange={handleNameAndEmail}
+                />
+              </Box>
+              <Box m={2}>
+                <TextField
+                  required
+                  type="email"
+                  size="small"
+                  name="email"
+                  variant="outlined"
+                  label="email"
+                  onChange={handleNameAndEmail}
+                />
+              </Box>
+              <Box m={2}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">
+                    <Typography align="center" variant="h6">
+                      Select days you can play
+                    </Typography>
+                  </FormLabel>
+                  <br></br>
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <FormGroup aria-label="position" row={true}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Any"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Any"
+                        labelPlacement="top"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Mon"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Mon"
+                        labelPlacement="top"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Tues"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Tue"
+                        labelPlacement="top"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Wed"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Wed"
+                        labelPlacement="top"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Thur"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Thur"
+                        labelPlacement="top"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Fri"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Fri"
+                        labelPlacement="top"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Sat"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Sat"
+                        labelPlacement="top"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"Sun"}
+                            onChange={handleCheckboxes}
+                            color="primary"
+                          />
+                        }
+                        label="Sun"
+                        labelPlacement="top"
+                      />
+                    </FormGroup>
+                  </Box>
+                  <Box m={2} px="10%">
+                    <Typography align="center" variant="subtitle2">
+                      At the moment games are usually Sunday mornings or Sunday
+                      evenings. We are thinking about adding games on Saturdays
+                      or weeknights depending on availability.
+                    </Typography>
+                  </Box>
+                </FormControl>
+              </Box>
+              <Box m={3}>
+                <Button
+                  type="submit"
+                  size="medium"
+                  variant="contained"
+                  color="primary"
+                >
+                  Join The League
+                </Button>
+              </Box>
+              <Box m={2}>
+                <Typography variant="caption">
+                  We will only email you about games and league information.
+                </Typography>
+              </Box>
+            </Box>
+          </form>
         </Box>
-      </form>
-    </Box>
+      )}
+    </>
   );
 }

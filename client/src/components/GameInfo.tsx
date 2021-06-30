@@ -8,10 +8,11 @@ import GlobalStyles from "./GlobalStyles";
 import ImageSlider from "./ImageSlider";
 
 export default function RadioButtonsGroup() {
-  const [rsvp, setRsvp] = useState<string>(`Yes, I'll be there!`);
+  const [rsvp, setRsvp] = useState<string>(`true`);
   const [userEmail, setUserEmail] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    console.log(event.target.value);
     setRsvp((event.target as HTMLInputElement).value);
   };
 
@@ -21,7 +22,33 @@ export default function RadioButtonsGroup() {
     setUserEmail(event.target.value);
   };
 
-  console.log(rsvp, userEmail);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const RSVP_BOOL: boolean = rsvp === "true";
+
+    try {
+      const body: {
+        userEmail: string;
+        RSVP_BOOL: boolean;
+      } = {
+        userEmail,
+        RSVP_BOOL,
+      };
+
+      const response = await fetch(`http://localhost:5000/api/rsvp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      alert(await response.json());
+    } catch (error) {
+      console.error(error.message);
+      alert("Oops something went wrong. Please try again later.");
+    }
+  };
 
   return (
     <Box style={GlobalStyles.card}>
@@ -33,46 +60,54 @@ export default function RadioButtonsGroup() {
           RSVP
         </Typography>
       </Box>
-      <Box textAlign="center">
-        <FormControl component="fieldset">
-          <RadioGroup
-            aria-label="RSVP"
-            value={rsvp}
-            name="RSVP"
-            onChange={handleChange}
-          >
-            <FormControlLabel
-              value="Yes, I'll be there!"
-              control={<Radio />}
-              label="Yes, I'll be there!"
-            />
-            <FormControlLabel
-              value="Can't make it this week."
-              control={<Radio />}
-              label="Can't make it this week."
-            />
-          </RadioGroup>
-        </FormControl>
-      </Box>
-      <Box textAlign="center" m={2}>
-        <Box m={2}>
-          <TextField
-            onChange={handleUserEmail}
-            required
-            size="small"
-            label="Email"
-            variant="outlined"
-          />
+      <form onSubmit={handleSubmit}>
+        <Box textAlign="center">
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="RSVP"
+              value={rsvp}
+              name="RSVP"
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="true"
+                control={<Radio />}
+                label="Yes, I'll be there!"
+              />
+              <FormControlLabel
+                value="false"
+                control={<Radio />}
+                label="Can't make it this week."
+              />
+            </RadioGroup>
+          </FormControl>
         </Box>
-        <Box>
-          <Button size="medium" variant="contained" color="primary">
-            Submit
-          </Button>
+        <Box textAlign="center" m={2}>
+          <Box m={2}>
+            <TextField
+              onChange={handleUserEmail}
+              required
+              type="email"
+              size="small"
+              label="Email"
+              variant="outlined"
+            />
+          </Box>
+          <Box>
+            <Button
+              type="submit"
+              size="medium"
+              variant="contained"
+              color="primary"
+            >
+              Submit
+            </Button>
+          </Box>
         </Box>
-      </Box>
-      <Box style={GlobalStyles.div}>
-        <ImageSlider />
-      </Box>
+        <Box style={GlobalStyles.div}>
+          <ImageSlider />
+        </Box>
+      </form>
     </Box>
   );
 }
