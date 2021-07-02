@@ -1,7 +1,12 @@
 import SimpleImageSlider from "react-simple-image-slider";
 import wifflepic from "../Assets/wifflepic.jpeg";
+import swing from "../Assets/swing.JPG";
 
-const images = [{ url: `${wifflepic}` }];
+const images = [
+  // { url: `${swing}` },
+  { url: `${wifflepic}` },
+  { url: `${wifflepic}` },
+];
 
 const ImageSlider = () => {
   return (
