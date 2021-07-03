@@ -19,6 +19,7 @@ const GlobalStyles = {
     opacity: "1",
   },
   card: {
+    height: "100vh",
     maxWidth: "100vw",
     width: "100%",
     padding: "0px",

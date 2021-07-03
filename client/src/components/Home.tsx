@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <Container style={GlobalStyles.card} maxWidth="md">
-      <Box style={GlobalStyles.card}>
+      <Box>
         <Typography align="center" variant="h3">
           Travis Heights Wiffle Ball League
         </Typography>
