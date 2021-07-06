@@ -104,9 +104,9 @@ export default function RadioButtonsGroup() {
             </Button>
           </Box>
         </Box>
-        <Box style={GlobalStyles.div}>
+        {/* <Box style={GlobalStyles.div}>
           <ImageSlider />
-        </Box>
+        </Box> */}
       </form>
     </Box>
   );
