@@ -6,8 +6,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import GlobalStyles from "./GlobalStyles";
 import ImageSlider from "./ImageSlider";
+import useMediaQuery from "./UseMediaQuery";
 
-export default function RadioButtonsGroup() {
+const GameInfo: React.FC = () => {
+  const mobileViewPort: boolean = useMediaQuery("(max-width: 500px)");
+
   const [rsvp, setRsvp] = useState<string>(`true`);
   const [userEmail, setUserEmail] = useState<string>("");
 
@@ -53,12 +56,10 @@ export default function RadioButtonsGroup() {
   return (
     <Box style={GlobalStyles.card}>
       <Box>
-        <Typography align="center" variant="h3">
+        <Typography align="center" variant="h5">
           Next Game is Sun 7/11 at 6pm
         </Typography>
-        <Typography align="center" variant="h5">
-          RSVP
-        </Typography>
+        <Typography align="center">RSVP</Typography>
       </Box>
       <form onSubmit={handleSubmit}>
         <Box textAlign="center">
@@ -104,10 +105,12 @@ export default function RadioButtonsGroup() {
             </Button>
           </Box>
         </Box>
-        {/* <Box style={GlobalStyles.div}>
-          <ImageSlider />
-        </Box> */}
+        <Box style={GlobalStyles.div}>
+          <ImageSlider mobileViewPort={mobileViewPort} />
+        </Box>
       </form>
     </Box>
   );
-}
+};
+
+export default GameInfo;
