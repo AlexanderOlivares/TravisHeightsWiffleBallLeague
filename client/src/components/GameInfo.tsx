@@ -7,6 +7,8 @@ import FormControl from "@material-ui/core/FormControl";
 import GlobalStyles from "./GlobalStyles";
 import ImageSlider from "./ImageSlider";
 import useMediaQuery from "./UseMediaQuery";
+import { ToastContainer, toast } from "material-react-toastify";
+import "material-react-toastify/dist/ReactToastify.css";
 
 const GameInfo: React.FC = () => {
   const mobileViewPort: boolean = useMediaQuery("(max-width: 500px)");
@@ -15,7 +17,6 @@ const GameInfo: React.FC = () => {
   const [userEmail, setUserEmail] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log(event.target.value);
     setRsvp((event.target as HTMLInputElement).value);
   };
 
@@ -46,10 +47,16 @@ const GameInfo: React.FC = () => {
         body: JSON.stringify(body),
       });
 
-      alert(await response.json());
+      let message = await response.json();
+      if (message.split(" ")[0] === "Please") {
+        toast.error(message);
+      } else {
+        toast.success(message);
+      }
+      setUserEmail("");
     } catch (error) {
       console.error(error.message);
-      alert("Oops something went wrong. Please try again later.");
+      toast.error("Oops something went wrong. Please try again later.");
     }
   };
 
@@ -109,6 +116,14 @@ const GameInfo: React.FC = () => {
           <ImageSlider mobileViewPort={mobileViewPort} />
         </Box>
       </form>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        closeOnClick={true}
+        pauseOnHover={true}
+        draggable={true}
+      />
     </Box>
   );
 };

@@ -7,6 +7,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import GlobalStyles from "./GlobalStyles";
+import { ToastContainer, toast } from "material-react-toastify";
+import "material-react-toastify/dist/ReactToastify.css";
 
 export default function Join() {
   interface UserTextInput {
@@ -71,10 +73,10 @@ export default function Join() {
       });
 
       setUserJoined(true);
-      alert(await response.json());
+      toast.success(await response.json());
     } catch (error) {
       console.error(error.message);
-      alert("Oops something went wrong. Please try again later.");
+      toast.error("Oops something went wrong. Please try again later.");
     }
   };
 
@@ -119,7 +121,7 @@ export default function Join() {
                 <FormControl component="fieldset">
                   <FormLabel component="legend">
                     <Typography align="center" variant="h6">
-                      Select days you can play
+                      Select days you're available
                     </Typography>
                   </FormLabel>
                   <br></br>
@@ -245,6 +247,7 @@ export default function Join() {
               </Box>
             </Box>
           </form>
+          <ToastContainer position="top-center" />
         </Box>
       )}
     </>
