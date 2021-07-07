@@ -47,7 +47,7 @@ const GameInfo: React.FC = () => {
         body: JSON.stringify(body),
       });
 
-      let message = await response.json();
+      const message = await response.json();
       if (message.split(" ")[0] === "Please") {
         toast.error(message);
       } else {

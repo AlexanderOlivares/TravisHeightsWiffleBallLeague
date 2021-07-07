@@ -6,6 +6,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 const pool = require("./db");
+const nodemailer = require("nodemailer");
+
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
 
 app.post("/api/join", async (req, res) => {
   try {
@@ -33,6 +42,22 @@ app.post("/api/join", async (req, res) => {
     res.json(
       "Woo-hoo! You have joined the league! We will email you about upcoming games."
     );
+
+    var mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: email,
+      subject: "Thanks for signing up!",
+      text: "We will email you about upcoming games.",
+    };
+
+    // sends a welcome email
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
   } catch (error) {
     console.error(error.message);
     res.status(500);
