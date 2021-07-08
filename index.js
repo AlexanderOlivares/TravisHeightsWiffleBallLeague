@@ -47,13 +47,21 @@ app.post("/api/join", async (req, res) => {
       from: process.env.EMAIL_USERNAME,
       to: email,
       subject: "Thanks for signing up!",
-      text: "We will email you about upcoming games.",
+      html: `
+			<p>We will email you about upcoming games. Cant wait to see you out there!</p>
+			<br>
+			<small>Please do not reply to this email.</small>
+			<small>
+				<a href="http://localhost:3000/unsubscribe">Unsubscribe</a>
+			</small>
+			`,
     };
 
-    // sends a welcome email
+    // sends the welcome email
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
+        throw new Error();
       } else {
         console.log("Email sent: " + info.response);
       }
@@ -74,9 +82,12 @@ app.post("/api/rsvp", async (req, res) => {
       [email]
     );
 
+    console.log(emailCheck.rows.length);
+
     // User hasn't joined the league yet. No email is on file
     if (!emailCheck.rows.length) {
-      return res.json("Please sign up for the league before RSVPing");
+      res.json(false);
+      return;
     }
 
     // check if user has already submitted an rsvp
@@ -102,6 +113,33 @@ app.post("/api/rsvp", async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500);
+  }
+});
+
+app.post("/api/unsubscribe", async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  try {
+    const emailCheck = await pool.query(
+      "SELECT user_email FROM users WHERE user_email = $1",
+      [email]
+    );
+
+    // User hasn't joined the league yet. No email is on file
+    if (!emailCheck.rows.length) {
+      return res.json("You are not currently subscribed");
+    }
+
+    const response = await pool.query(
+      "DELETE FROM users WHERE user_email = $1",
+      [email]
+    );
+
+    res.json("Successfully unsubscribed. Sad to see you go...");
+  } catch (error) {
+    res.json(
+      "Oops there was an error on our end. Please try again later or email us directly at travisheightwiffleball@gmail.com to be removed from our list"
+    );
   }
 });
 

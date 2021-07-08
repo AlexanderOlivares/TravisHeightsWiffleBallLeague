@@ -5,6 +5,7 @@ import Join from "./components/Join";
 import GameInfo from "./components/GameInfo";
 import { Container } from "@material-ui/core";
 import GlobalStyles from "./components/GlobalStyles";
+import Unsubscribe from "./components/Unsubscribe";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/join" component={Join} />
           <Route exact path="/gameinfo" component={GameInfo} />
+          <Route exact path="/unsubscribe" component={Unsubscribe} />
         </Switch>
       </Router>
     </Container>

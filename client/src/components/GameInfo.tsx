@@ -47,13 +47,14 @@ const GameInfo: React.FC = () => {
         body: JSON.stringify(body),
       });
 
-      const message = await response.json();
-      if (message.split(" ")[0] === "Please") {
-        toast.error(message);
+      const successfulRsvp = await response.json();
+
+      // no email match found for user
+      if (!successfulRsvp) {
+        toast.error("Please sign up for the league before RSVPing");
       } else {
-        toast.success(message);
+        toast.success(successfulRsvp);
       }
-      setUserEmail("");
     } catch (error) {
       console.error(error.message);
       toast.error("Oops something went wrong. Please try again later.");
