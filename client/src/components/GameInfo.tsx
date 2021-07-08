@@ -80,12 +80,12 @@ const GameInfo: React.FC = () => {
             >
               <FormControlLabel
                 value="true"
-                control={<Radio />}
+                control={<Radio color="secondary" />}
                 label="Yes, I'll be there!"
               />
               <FormControlLabel
                 value="false"
-                control={<Radio />}
+                control={<Radio color="secondary" />}
                 label="Can't make it this week."
               />
             </RadioGroup>

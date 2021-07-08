@@ -136,7 +136,7 @@ export default function Join() {
                           <Checkbox
                             value={"Any"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Any"
@@ -147,7 +147,7 @@ export default function Join() {
                           <Checkbox
                             value={"Mon"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Mon"
@@ -158,7 +158,7 @@ export default function Join() {
                           <Checkbox
                             value={"Tues"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Tue"
@@ -169,7 +169,7 @@ export default function Join() {
                           <Checkbox
                             value={"Wed"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Wed"
@@ -180,7 +180,7 @@ export default function Join() {
                           <Checkbox
                             value={"Thur"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Thur"
@@ -191,7 +191,7 @@ export default function Join() {
                           <Checkbox
                             value={"Fri"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Fri"
@@ -202,7 +202,7 @@ export default function Join() {
                           <Checkbox
                             value={"Sat"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Sat"
@@ -213,7 +213,7 @@ export default function Join() {
                           <Checkbox
                             value={"Sun"}
                             onChange={handleCheckboxes}
-                            color="primary"
+                            color="secondary"
                           />
                         }
                         label="Sun"
