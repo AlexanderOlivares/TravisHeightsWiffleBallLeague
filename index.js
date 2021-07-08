@@ -48,7 +48,7 @@ app.post("/api/join", async (req, res) => {
       to: email,
       subject: "Thanks for signing up!",
       html: `
-			<p>We will email you about upcoming games. Cant wait to see you out there!</p>
+			<p>We will email you about upcoming games. Can't wait to see you out there!</p>
 			<br>
 			<small>Please do not reply to this email.</small>
 			<small>

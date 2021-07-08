@@ -5,15 +5,16 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import GlobalStyles from "./GlobalStyles";
-import ImageSlider from "./ImageSlider";
-import useMediaQuery from "./UseMediaQuery";
-import { ToastContainer, toast } from "material-react-toastify";
+import { toast } from "material-react-toastify";
 import "material-react-toastify/dist/ReactToastify.css";
+import Map from "./Map";
+import { Redirect } from "react-router-dom";
 
 const GameInfo: React.FC = () => {
-  const mobileViewPort: boolean = useMediaQuery("(max-width: 500px)");
+  const mapType: string = "hybrid";
 
-  const [rsvp, setRsvp] = useState<string>(`true`);
+  const [redirectToJoin, setRedirectToJoin] = useState<boolean>(false);
+  const [rsvp, setRsvp] = useState<string>("true");
   const [userEmail, setUserEmail] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -49,11 +50,12 @@ const GameInfo: React.FC = () => {
 
       const successfulRsvp = await response.json();
 
-      // no email match found for user
+      // will be false if no email match found for user
       if (!successfulRsvp) {
         toast.error("Please sign up for the league before RSVPing");
+        setRedirectToJoin(true);
       } else {
-        toast.success(successfulRsvp);
+        toast.warning(successfulRsvp);
       }
     } catch (error) {
       console.error(error.message);
@@ -62,70 +64,79 @@ const GameInfo: React.FC = () => {
   };
 
   return (
-    <Box style={GlobalStyles.card}>
-      <Box>
+    <>
+      {redirectToJoin && <Redirect to="/join" />}
+      <Box style={GlobalStyles.card}>
+        <Box>
+          <Typography align="center" variant="h3">
+            Next Game is Sun 7/11 at 6pm
+          </Typography>
+        </Box>
         <Typography align="center" variant="h5">
-          Next Game is Sun 7/11 at 6pm
+          Free to play and open to all!
         </Typography>
-        <Typography align="center">RSVP</Typography>
+        <Box m={1}>
+          <Typography align="center" variant="h6">
+            RSVP
+          </Typography>
+        </Box>
+        <form onSubmit={handleSubmit}>
+          <Box textAlign="center">
+            <FormControl component="fieldset">
+              <RadioGroup
+                aria-label="RSVP"
+                value={rsvp}
+                name="RSVP"
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio color="secondary" />}
+                  label="Yes, I'll be there!"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio color="secondary" />}
+                  label="Can't make it this week."
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+          <Box textAlign="center" m={2}>
+            <Box m={2}>
+              <TextField
+                onChange={handleUserEmail}
+                required
+                type="email"
+                size="small"
+                label="Email"
+                variant="outlined"
+                color="secondary"
+              />
+            </Box>
+            <Box>
+              <Button
+                type="submit"
+                size="medium"
+                variant="contained"
+                color="secondary"
+              >
+                Submit
+              </Button>
+            </Box>
+          </Box>
+          <Box style={GlobalStyles.div}>
+            <Typography align="center" variant="h5">
+              We play at the Blunn Creek Greenbelt just south of Little Stacy
+              Park
+            </Typography>
+            <Box m={2} id="map">
+              <Map mapType={mapType} />
+            </Box>
+          </Box>
+        </form>
       </Box>
-      <form onSubmit={handleSubmit}>
-        <Box textAlign="center">
-          <FormControl component="fieldset">
-            <RadioGroup
-              aria-label="RSVP"
-              value={rsvp}
-              name="RSVP"
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="true"
-                control={<Radio color="secondary" />}
-                label="Yes, I'll be there!"
-              />
-              <FormControlLabel
-                value="false"
-                control={<Radio color="secondary" />}
-                label="Can't make it this week."
-              />
-            </RadioGroup>
-          </FormControl>
-        </Box>
-        <Box textAlign="center" m={2}>
-          <Box m={2}>
-            <TextField
-              onChange={handleUserEmail}
-              required
-              type="email"
-              size="small"
-              label="Email"
-              variant="outlined"
-            />
-          </Box>
-          <Box>
-            <Button
-              type="submit"
-              size="medium"
-              variant="contained"
-              color="primary"
-            >
-              Submit
-            </Button>
-          </Box>
-        </Box>
-        <Box style={GlobalStyles.div}>
-          <ImageSlider mobileViewPort={mobileViewPort} />
-        </Box>
-      </form>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-        closeOnClick={true}
-        pauseOnHover={true}
-        draggable={true}
-      />
-    </Box>
+    </>
   );
 };
 

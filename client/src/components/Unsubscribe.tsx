@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Typography, Box, Button, TextField } from "@material-ui/core";
 import GlobalStyles from "./GlobalStyles";
-import { ToastContainer, toast } from "material-react-toastify";
+import { toast } from "material-react-toastify";
 
 const Unsubscribe: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -29,7 +29,7 @@ const Unsubscribe: React.FC = () => {
         body: JSON.stringify(body),
       });
 
-      toast.success(await response.json());
+      toast.warning(await response.json());
     } catch (error) {
       toast.error(error);
     }
@@ -61,20 +61,12 @@ const Unsubscribe: React.FC = () => {
             type="submit"
             size="medium"
             variant="contained"
-            color="primary"
+            color="secondary"
           >
             Unsubscribe
           </Button>
         </Box>
       </form>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-        closeOnClick={true}
-        pauseOnHover={true}
-        draggable={true}
-      />
     </Box>
   );
 };

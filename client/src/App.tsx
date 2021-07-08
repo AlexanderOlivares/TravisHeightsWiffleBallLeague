@@ -6,8 +6,8 @@ import GameInfo from "./components/GameInfo";
 import { Container, ThemeProvider } from "@material-ui/core";
 import GlobalStyles from "./components/GlobalStyles";
 import Unsubscribe from "./components/Unsubscribe";
-import { MuiThemeProvider } from "@material-ui/core/styles";
 import Theme from "./components/Theme";
+import { ToastContainer } from "material-react-toastify";
 
 function App() {
   return (
@@ -24,6 +24,14 @@ function App() {
             </Switch>
           </Router>
         </Container>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={true}
+          closeOnClick={true}
+          pauseOnHover={true}
+          draggable={true}
+        />
       </ThemeProvider>
     </>
   );

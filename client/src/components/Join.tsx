@@ -7,7 +7,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import GlobalStyles from "./GlobalStyles";
-import { ToastContainer, toast } from "material-react-toastify";
+import { toast } from "material-react-toastify";
 import "material-react-toastify/dist/ReactToastify.css";
 
 export default function Join() {
@@ -73,7 +73,7 @@ export default function Join() {
       });
 
       setUserJoined(true);
-      toast.success(await response.json());
+      toast.warning(await response.json());
     } catch (error) {
       console.error(error.message);
       toast.error("Oops something went wrong. Please try again later.");
@@ -102,6 +102,7 @@ export default function Join() {
                   size="small"
                   name="name"
                   variant="outlined"
+                  color="secondary"
                   label="name"
                   onChange={handleNameAndEmail}
                 />
@@ -112,6 +113,7 @@ export default function Join() {
                   type="email"
                   size="small"
                   name="email"
+                  color="secondary"
                   variant="outlined"
                   label="email"
                   onChange={handleNameAndEmail}
@@ -235,7 +237,7 @@ export default function Join() {
                   type="submit"
                   size="medium"
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                 >
                   Join The League
                 </Button>
@@ -247,7 +249,6 @@ export default function Join() {
               </Box>
             </Box>
           </form>
-          <ToastContainer position="top-center" />
         </Box>
       )}
     </>

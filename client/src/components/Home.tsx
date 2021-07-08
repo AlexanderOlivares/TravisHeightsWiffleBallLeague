@@ -7,20 +7,18 @@ import useMediaQuery from "./UseMediaQuery";
 
 const Home: React.FC = () => {
   const mobileViewPort: boolean = useMediaQuery("(max-width: 500px)");
+  const mapType: string = "roadmap";
 
   return (
     <>
       <Container style={GlobalStyles.card} maxWidth="md">
         <Box>
-          <Typography align="center" variant="h4">
+          <Typography align="center" variant="h3">
             Travis Heights Wiffle Ball League
           </Typography>
-          <Typography align="center" variant="h5">
-            Free to play and open to all!
-          </Typography>
           <Box m={1}>
-            <Typography align="center" variant="h4">
-              Join for free!
+            <Typography align="center" variant="h6">
+              Free and open to all!
             </Typography>
           </Box>
           <Box textAlign="center">
@@ -28,7 +26,7 @@ const Home: React.FC = () => {
               style={GlobalStyles.button}
               size="medium"
               variant="contained"
-              color="primary"
+              color="secondary"
             >
               <Link
                 to="/join"
@@ -44,16 +42,13 @@ const Home: React.FC = () => {
         </Box>
         <Box style={GlobalStyles.div}>
           <Typography align="center" variant="h5">
-            We play at Little Stacy Park in Travis Heights
+            We play at the Blunn Creek Greenbelt just south of Little Stacy Park
           </Typography>
-          <Box id="map">
-            <Map />
+          <Box m={2} id="map">
+            <Map mapType={mapType} />
           </Box>
         </Box>
       </Container>
-      {/* <Box maxWidth="md">
-        <ImageSwiper mobileViewPort={mobileViewPort} />
-      </Box> */}
     </>
   );
 };

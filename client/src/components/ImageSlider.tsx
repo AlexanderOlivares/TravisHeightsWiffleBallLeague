@@ -13,16 +13,15 @@ const images = [
   { url: `${thumbsup}` },
 ];
 
-interface onMobile {
+interface ImageSliderProps {
   mobileViewPort: boolean;
 }
 
-// need media queieres for height on wider screens
-const ImageSlider: React.FC<onMobile> = ({ mobileViewPort }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({ mobileViewPort }) => {
   return (
     <div>
       <SimpleImageSlider
-        height={mobileViewPort ? "50vh" : "90vh"}
+        height={mobileViewPort ? "50vh" : "95vh"}
         alt="wiffleball pics"
         width={"90vw"}
         images={images}
