@@ -42,7 +42,7 @@ const GameInfo: React.FC = () => {
         RSVP_BOOL,
       };
 
-      const response = await fetch(`http://localhost:5000/api/rsvp`, {
+      const response = await fetch(`/api/rsvp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

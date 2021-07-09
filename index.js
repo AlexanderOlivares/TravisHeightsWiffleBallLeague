@@ -3,10 +3,15 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 5000;
+const path = require("path");
 app.use(cors());
 app.use(express.json());
 const pool = require("./db");
 const nodemailer = require("nodemailer");
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client/build")));
+}
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -43,6 +48,7 @@ app.post("/api/join", async (req, res) => {
       "Woo-hoo! You have joined the league! We will email you about upcoming games."
     );
 
+    // need to update path to unsub component
     var mailOptions = {
       from: process.env.EMAIL_USERNAME,
       to: email,
@@ -144,6 +150,10 @@ app.post("/api/unsubscribe", async (req, res) => {
       "Oops there was an error on our end. Please try again later or email us directly at travisheightwiffleball@gmail.com to be removed from our list"
     );
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
 
 app.listen(PORT, () => {

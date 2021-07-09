@@ -21,7 +21,7 @@ const Unsubscribe: React.FC = () => {
         email,
       };
 
-      const response = await fetch(`http://localhost:5000/api/unsubscribe`, {
+      const response = await fetch(`/api/unsubscribe`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
