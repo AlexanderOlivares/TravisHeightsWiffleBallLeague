@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      position: "-webkit-sticky",
     },
     title: {
       flexGrow: 1,
