@@ -15,21 +15,24 @@ const images = [
 
 interface ImageSliderProps {
   mobileViewPort: boolean;
+  wideViewPort: boolean;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ mobileViewPort }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({
+  mobileViewPort,
+  wideViewPort,
+}) => {
   return (
-    <div>
-      <SimpleImageSlider
-        height={mobileViewPort ? "50vh" : "95vh"}
-        alt="wiffleball pics"
-        width={"90vw"}
-        images={images}
-        slideDuration={0.5}
-        showNavs={true}
-        showBullets={true}
-      />
-    </div>
+    <SimpleImageSlider
+      height={mobileViewPort ? "50vh" : "95vh"}
+      alt="wiffleball pics"
+      width={"90vw"}
+      // conditional for images (to be added) that are "ultra-wide safe"
+      images={wideViewPort ? images : images}
+      slideDuration={0.5}
+      showNavs={true}
+      showBullets={true}
+    />
   );
 };
 

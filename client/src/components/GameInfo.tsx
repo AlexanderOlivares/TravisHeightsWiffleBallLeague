@@ -52,11 +52,12 @@ const GameInfo: React.FC = () => {
 
       const successfulRsvp = await response.json();
 
-      // will be false if no email match found for user
+      // will be false if no email match is found for user
       if (!successfulRsvp) {
         toast.error("Please sign up for the league before RSVPing");
         setRedirectToJoin(true);
       } else {
+        // warning is correct. I want the orange alert to match color scheme
         toast.warning(successfulRsvp);
       }
     } catch (error) {

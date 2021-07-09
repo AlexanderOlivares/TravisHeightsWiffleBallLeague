@@ -13,8 +13,6 @@ const GlobalStyles = {
   },
   div: {
     padding: "5%",
-    // justifyContent: "center",
-    // margin: "0 auto",
   },
   button: {
     justify: "center",

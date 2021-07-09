@@ -4,24 +4,21 @@ import Map from "./Map";
 import ImageSlider from "./ImageSlider";
 import { Link } from "react-router-dom";
 import useMediaQuery from "./UseMediaQuery";
+import logo from "../Assets/logo.png";
 
 const Home: React.FC = () => {
   const mobileViewPort: boolean = useMediaQuery("(max-width: 500px)");
+  const wideViewPort: boolean = useMediaQuery("(min-width: 2500px)");
   const mapType: string = "roadmap";
 
   return (
     <>
       <Container style={GlobalStyles.card} maxWidth="md">
+        <Box textAlign="center">
+          <img alt="Travis Hieights Wiffle Ball logo" src={logo}></img>
+        </Box>
         <Box>
-          <Typography align="center" variant="h3">
-            Travis Heights Wiffle Ball League
-          </Typography>
-          <Box m={1}>
-            <Typography align="center" variant="h6">
-              Free and open to all!
-            </Typography>
-          </Box>
-          <Box textAlign="center">
+          <Box my={2} textAlign="center">
             <Button
               style={GlobalStyles.button}
               size="medium"
@@ -38,7 +35,10 @@ const Home: React.FC = () => {
           </Box>
         </Box>
         <Box style={GlobalStyles.div}>
-          <ImageSlider mobileViewPort={mobileViewPort} />
+          <ImageSlider
+            mobileViewPort={mobileViewPort}
+            wideViewPort={wideViewPort}
+          />
         </Box>
         <Box style={GlobalStyles.div}>
           <Typography align="center" variant="h5">

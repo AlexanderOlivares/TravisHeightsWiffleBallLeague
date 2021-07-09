@@ -22,6 +22,7 @@ export default function Join() {
   });
 
   const [daysUserCanPlay, setDaysUserCanPlay] = useState<string[]>([]);
+  // eslint-disable-next-line
   const [checked, setChecked] = useState<Boolean>(false);
   const [userJoined, setUserJoined] = useState<Boolean>(false);
 
