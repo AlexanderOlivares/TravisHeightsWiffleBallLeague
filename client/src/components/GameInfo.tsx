@@ -17,7 +17,9 @@ const GameInfo: React.FC = () => {
   const [rsvp, setRsvp] = useState<string>("true");
   const [userEmail, setUserEmail] = useState<string>("");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleRadioButtons = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     setRsvp((event.target as HTMLInputElement).value);
   };
 
@@ -87,7 +89,7 @@ const GameInfo: React.FC = () => {
                 aria-label="RSVP"
                 value={rsvp}
                 name="RSVP"
-                onChange={handleChange}
+                onChange={handleRadioButtons}
               >
                 <FormControlLabel
                   value="true"

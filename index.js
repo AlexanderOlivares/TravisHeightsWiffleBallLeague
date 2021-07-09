@@ -29,7 +29,7 @@ app.post("/api/join", async (req, res) => {
     // User email is already on file
     if (emailCheck.rows.length > 0) {
       return res.json(
-        "You are already signed up for the legue! Pleae rsvp for the next game"
+        "You are already signed up for the league! Pleae rsvp for the next game"
       );
     }
 
@@ -61,14 +61,15 @@ app.post("/api/join", async (req, res) => {
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
-        throw new Error();
       } else {
         console.log("Email sent: " + info.response);
       }
     });
   } catch (error) {
     console.error(error.message);
-    res.status(500);
+    res.json(
+      "Oops there was an error on our end. Please try again later or email us directly at travisheightwiffleball@gmail.com to join the league."
+    );
   }
 });
 
@@ -111,8 +112,10 @@ app.post("/api/rsvp", async (req, res) => {
 
     res.json("Thanks for letting us know!");
   } catch (error) {
-    console.error(error.message);
     res.status(500);
+    res.json(
+      "Oops there was an error on our end. Please try again later or email us directly at travisheightwiffleball@gmail.com to rsvp"
+    );
   }
 });
 
