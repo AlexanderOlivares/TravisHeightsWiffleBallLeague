@@ -49,6 +49,7 @@ app.post("/api/join", async (req, res) => {
     );
 
     // need to update path to unsub component
+    ("https://wiffle.herokuapp.com/unsubscribe");
     var mailOptions = {
       from: process.env.EMAIL_USERNAME,
       to: email,
@@ -58,7 +59,7 @@ app.post("/api/join", async (req, res) => {
 			<br>
 			<small>Please do not reply to this email.</small>
 			<small>
-				<a href="http://localhost:3000/unsubscribe">Unsubscribe</a>
+				<a href="https://wiffle.herokuapp.com/unsubscribe">Unsubscribe</a>
 			</small>
 			`,
     };
