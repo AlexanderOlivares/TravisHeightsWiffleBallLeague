@@ -48,8 +48,6 @@ app.post("/api/join", async (req, res) => {
       "Woo-hoo! You have joined the league! We will email you about upcoming games."
     );
 
-    // need to update path to unsub component
-    ("https://wiffle.herokuapp.com/unsubscribe");
     var mailOptions = {
       from: process.env.EMAIL_USERNAME,
       to: email,
