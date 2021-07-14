@@ -72,7 +72,7 @@ const GameInfo: React.FC = () => {
       <Box style={GlobalStyles.card}>
         <Box>
           <Typography align="center" variant="h3">
-            Next Game will be this weekend (7/17 - 7/18) TBD
+            Next Game is July 17th at 6pm
           </Typography>
         </Box>
         <Typography align="center" variant="h5">
