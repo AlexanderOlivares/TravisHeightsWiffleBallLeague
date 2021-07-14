@@ -7,10 +7,10 @@ import emptyfield from "../Assets/emptyfield.jpeg";
 
 const images = [
   { url: `${swing}` },
-  { url: `${emptyfield}` },
   { url: `${actionshot}` },
   { url: `${fielders}` },
   { url: `${thumbsup}` },
+  { url: `${emptyfield}` },
 ];
 
 interface ImageSliderProps {
