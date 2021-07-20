@@ -71,8 +71,9 @@ const GameInfo: React.FC = () => {
       {redirectToJoin && <Redirect to="/join" />}
       <Box style={GlobalStyles.card}>
         <Box>
-          <Typography align="center" variant="h3">
-            Next Game is July 17th at 6pm
+          <Typography align="center" variant="h4">
+            Next Game is TBD. We will email all league members the game-time
+            later this week.
           </Typography>
         </Box>
         <Typography align="center" variant="h5">
