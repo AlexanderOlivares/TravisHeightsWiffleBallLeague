@@ -72,8 +72,7 @@ const GameInfo: React.FC = () => {
       <Box style={GlobalStyles.card}>
         <Box>
           <Typography align="center" variant="h4">
-            Next Game is TBD. We will email all league members the game-time
-            later this week.
+            Next Game is Sat. July 24th at 6pm
           </Typography>
         </Box>
         <Typography align="center" variant="h5">
