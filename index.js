@@ -151,8 +151,23 @@ app.post("/api/unsubscribe", async (req, res) => {
   }
 });
 
+app.get("/api/email-users", async (req, res) => {
+  try {
+    const getEmails = await pool.query("SELECT * FROM users");
+
+    const userEmailArray = getEmails.rows.map(user => user.user_email);
+
+    console.log(emailsOnly);
+    res.json(userEmailArray);
+  } catch (error) {
+    console.error(error.message);
+    res.json(error.message);
+  }
+});
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
+  // res.sendFile(path.join(__dirname, "client/build/index.html"));
+  res.redirect("https://wiffle.herokuapp.com/");
 });
 
 app.listen(PORT, () => {
