@@ -6,7 +6,7 @@ interface AdminCreds {
   password: string;
 }
 
-const Admin: React.FC = () => {
+const AdminLogin: React.FC = () => {
   const [userAndPass, setUserAndPass] = useState<AdminCreds>({
     email: "",
     password: "",
@@ -69,4 +69,4 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;
+export default AdminLogin;

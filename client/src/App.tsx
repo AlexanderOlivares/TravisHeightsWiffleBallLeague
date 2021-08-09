@@ -7,7 +7,8 @@ import { Container, ThemeProvider } from "@material-ui/core";
 import GlobalStyles from "./components/GlobalStyles";
 import Unsubscribe from "./components/Unsubscribe";
 import Theme from "./components/Theme";
-import Admin from "./components/Admin";
+import AdminLogin from "./components/Admin/AdminLogin";
+import AdminHome from "./components/Admin/AdminHome";
 import { ToastContainer } from "material-react-toastify";
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
               <Route exact path="/join" component={Join} />
               <Route exact path="/gameinfo" component={GameInfo} />
               <Route exact path="/unsubscribe" component={Unsubscribe} />
-              <Route exact path="/admin" component={Admin} />
+              <Route exact path="/admin" component={AdminLogin} />
+              <Route exact path="/admin-home" component={AdminHome} />
             </Switch>
           </Router>
         </Container>
