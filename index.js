@@ -152,7 +152,8 @@ app.post("/api/unsubscribe", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
+  res.redirect("https://wiffle.herokuapp.com/");
+  // res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
 
 app.listen(PORT, () => {

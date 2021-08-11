@@ -218,13 +218,6 @@ export default function Join() {
                     />
                   </FormGroup>
                 </Box>
-                <Box m={2} px="10%">
-                  <Typography align="center" variant="subtitle2">
-                    At the moment games are usually Sunday mornings or Sunday
-                    evenings. We are thinking about adding games on Saturdays or
-                    weeknights depending on availability.
-                  </Typography>
-                </Box>
               </FormControl>
             </Box>
             <Box m={3}>
