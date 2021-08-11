@@ -155,14 +155,22 @@ app.post("/api/unsubscribe", async (req, res) => {
 // admin stuff below
 //////////////////////
 
-app.get("/api/email-users", async (req, res) => {
+app.get("/api/admin/users", async (req, res) => {
   try {
-    const getEmails = await pool.query("SELECT * FROM users");
+    const userList = await pool.query("SELECT * FROM users");
 
-    const userEmailArray = getEmails.rows.map(user => user.user_email);
+    res.json(userList.rows);
+  } catch (error) {
+    console.error(error.message);
+    res.json(error.message);
+  }
+});
 
-    console.log(emailsOnly);
-    res.json(userEmailArray);
+app.get("/api/admin/rsvp", async (req, res) => {
+  try {
+    const rsvpList = await pool.query("SELECT * FROM rsvp");
+
+    res.json(rsvpList.rows);
   } catch (error) {
     console.error(error.message);
     res.json(error.message);
