@@ -151,6 +151,10 @@ app.post("/api/unsubscribe", async (req, res) => {
   }
 });
 
+//////////////////////
+// admin stuff below
+//////////////////////
+
 app.get("/api/email-users", async (req, res) => {
   try {
     const getEmails = await pool.query("SELECT * FROM users");

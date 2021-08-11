@@ -8,8 +8,8 @@ import GlobalStyles from "./components/GlobalStyles";
 import Unsubscribe from "./components/Unsubscribe";
 import Theme from "./components/Theme";
 import AdminLogin from "./components/Admin/AdminLogin";
-import AdminHome from "./components/Admin/AdminHome";
 import { ToastContainer } from "material-react-toastify";
+import AdminDashboard from "./components/Admin/AdminDashboard";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
               <Route exact path="/gameinfo" component={GameInfo} />
               <Route exact path="/unsubscribe" component={Unsubscribe} />
               <Route exact path="/admin" component={AdminLogin} />
-              <Route exact path="/admin-home" component={AdminHome} />
+              <Route exact path="/admin-dashboard" component={AdminDashboard} />
             </Switch>
           </Router>
         </Container>

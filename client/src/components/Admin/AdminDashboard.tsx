@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -9,64 +9,55 @@ import {
 } from "@material-ui/core";
 import GlobalStyles from "../GlobalStyles";
 // import SimpleModal from "./SimpleModal";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { getModalStyle, useStyles } from "./modalUtils/ModalHelperFuncs";
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      position: "absolute",
-      minWidth: 300,
-      maxWidth: "90vw",
-      backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  })
-);
-
-const AdminHome: React.FC = () => {
+const AdminDashboard: React.FC = () => {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState<boolean>(false);
-  //   const [activeModal, setActiveModal] = React.useState<HTMLElement>(null);
+  const [openUsers, setOpenUsers] = React.useState<boolean>(false);
+  const [openRsvp, setOpenRsvp] = React.useState<boolean>(false);
+  const [subjectLine, setSubjectLine] = useState<string>("");
+  const [emailBody, setEmailBody] = useState<string>("");
 
-  const handleOpen = () => {
-    setOpen(true);
+  console.log(subjectLine);
+  console.log(emailBody);
+
+  const captureSubjectLine = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setSubjectLine(event.target.value);
+  };
+
+  const captureEmailBody = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ): void => {
+    setEmailBody(event.target.value);
+  };
+
+  const openUserModal = () => {
+    setOpenUsers(true);
+  };
+  const openRsvpModal = () => {
+    setOpenRsvp(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenUsers(false);
+    setOpenRsvp(false);
   };
 
-  const body = (
+  const userData = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">same modal :)</p>
+      <p id="simple-modal-description">users modal :)</p>
       {/* <SimpleModal /> */}
     </div>
   );
 
-  const body1 = (
+  const rsvpData = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">same modal duplicate</p>
+      <p id="simple-modal-description">rsvp modal duplicate</p>
       {/* <SimpleModal /> */}
     </div>
   );
@@ -85,7 +76,7 @@ const AdminHome: React.FC = () => {
           </Typography>
           <Button
             id="users"
-            onClick={handleOpen}
+            onClick={openUserModal}
             size="medium"
             variant="contained"
             color="secondary"
@@ -99,7 +90,7 @@ const AdminHome: React.FC = () => {
           </Typography>
           <Button
             id="rsvp"
-            onClick={handleOpen}
+            onClick={openRsvpModal}
             size="medium"
             variant="contained"
             color="secondary"
@@ -114,20 +105,23 @@ const AdminHome: React.FC = () => {
           <Box m={2}>
             <TextField
               style={{ minWidth: "60vw" }}
-              name="message"
+              name="subject"
               label="Subject Line"
               variant="outlined"
               color="secondary"
+              onChange={captureSubjectLine}
             />
           </Box>
           <Typography align="center" variant="h6">
             Email Body
           </Typography>
           <TextareaAutosize
+            name="body"
             style={{ minWidth: "80vw" }}
             rowsMin={10}
             placeholder="Next game is..."
             defaultValue=""
+            onChange={captureEmailBody}
           />
           <Box m={3} textAlign="center">
             <Button size="medium" variant="contained" color="secondary">
@@ -137,15 +131,23 @@ const AdminHome: React.FC = () => {
         </Box>
       </Box>
       <Modal
-        open={open}
+        open={openUsers}
         onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
+        aria-labelledby="users"
+        aria-describedby="user-modal"
       >
-        {body}
+        {userData}
+      </Modal>
+      <Modal
+        open={openRsvp}
+        onClose={handleClose}
+        aria-labelledby="rsvp"
+        aria-describedby="rsvp-modal"
+      >
+        {rsvpData}
       </Modal>
     </>
   );
 };
 
-export default AdminHome;
+export default AdminDashboard;
