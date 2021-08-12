@@ -18,16 +18,26 @@ export function getModalStyle() {
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
-      position: "absolute",
-      minWidth: 300,
-      maxWidth: "90vw",
+      //   position: "absolute",
+      //   position: "relative",
+      //   minwidth: "300px",
+      //   maxwidth: "90%",
       backgroundColor: theme.palette.background.paper,
       border: "2px solid #000",
       boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
+      margin: "5%",
+      marginTop: "15%",
+      marginBottom: "5%",
+      //   margin: "0 auto",
+      //   padding: theme.spacing(2, 4, 3),
+    },
+    headers: {
+      padding: "2%",
     },
     table: {
-      minWidth: 650,
+      //   minWidth: "80vw",
+      //   maxWidth: "80vw",
+      //   margin: "15%",
     },
   })
 );

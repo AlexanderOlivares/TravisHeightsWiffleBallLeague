@@ -18,26 +18,34 @@ import GlobalStyles from "../GlobalStyles";
 import { getModalStyle, useStyles } from "./modalUtils/ModalHelperFuncs";
 import { Interface } from "readline";
 import { string } from "yargs";
+import { createNoSubstitutionTemplateLiteral } from "typescript";
 
 // const useStyles = makeStyles({
 // 	table: {
 // 	  minWidth: 650,
 // 	},
 //   });
-interface UserInfo {
+interface IUser {
   user_name: string;
   user_email: string;
   days_can_play: string[];
 }
 
+interface IRsvp {
+  can_attend: boolean;
+  user_email: string;
+  date_submitted: string;
+}
+
 const AdminDashboard: React.FC = () => {
   const classes = useStyles();
-  const [modalStyle] = React.useState(getModalStyle);
+  //   const [modalStyle] = React.useState(getModalStyle);
   const [openUsers, setOpenUsers] = React.useState<boolean>(false);
   const [openRsvp, setOpenRsvp] = React.useState<boolean>(false);
   const [subjectLine, setSubjectLine] = useState<string>("");
   const [emailBody, setEmailBody] = useState<string>("");
-  const [userList, setUserList] = useState<UserInfo[]>();
+  const [userList, setUserList] = useState<IUser[]>();
+  const [rsvpList, setRsvpList] = useState<IRsvp[]>();
 
   const captureSubjectLine = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -67,6 +75,7 @@ const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     getUserList();
+    getRsvpList();
   }, []);
 
   const getUserList = async () => {
@@ -80,7 +89,6 @@ const AdminDashboard: React.FC = () => {
       console.error(error.message);
     }
   };
-  console.log(userList);
 
   const getRsvpList = async () => {
     try {
@@ -88,6 +96,7 @@ const AdminDashboard: React.FC = () => {
         method: "GET",
       });
       const parsedRes = await response.json();
+      setRsvpList(parsedRes);
       console.log(parsedRes);
     } catch (error) {
       console.error(error.message);
@@ -95,11 +104,14 @@ const AdminDashboard: React.FC = () => {
   };
 
   const userData = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="user-list-modal">User List</h2>
-      <p id="number-of-users">{`Total Users: ${
-        userList && userList.length
-      }`}</p>
+    // <div style={modalStyle} className={classes.paper}>
+    <Box className={classes.paper}>
+      <Box className={classes.headers}>
+        <h2 id="user-list-modal">User List</h2>
+        <p id="number-of-users">{`Total Users: ${
+          userList && userList.length
+        }`}</p>
+      </Box>
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
@@ -124,15 +136,42 @@ const AdminDashboard: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Box>
   );
 
   const rsvpData = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">RSVP List</h2>
-      <p id="simple-modal-description">rsvp modal duplicate</p>
-      {/* <SimpleModal /> */}
-    </div>
+    <Box className={classes.paper}>
+      <Box className={classes.headers}>
+        <h2 id="simple-modal-title">RSVP List</h2>
+        <p id="simple-modal-description">rsvp modal duplicate</p>
+      </Box>
+      <TableContainer>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">Can Attend</TableCell>
+              <TableCell align="left">Date Submitted</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rsvpList &&
+              rsvpList.map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell component="th" scope="row">
+                    {user.user_email}
+                  </TableCell>
+                  <TableCell align="left">
+                    {user.can_attend.toString()}
+                  </TableCell>
+                  {/* STILL NEED TO FORMAT DATE */}
+                  {/* <TableCell align="left">{user.date_submitted}</TableCell> */}
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 
   return (
