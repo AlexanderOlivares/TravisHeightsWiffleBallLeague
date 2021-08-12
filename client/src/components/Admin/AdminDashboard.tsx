@@ -135,17 +135,17 @@ const AdminDashboard: React.FC = () => {
               ))}
           </TableBody>
         </Table>
-        <Box className={classes.closeModalButton} textAlign="center">
-          <Button
-            type="button"
-            variant="contained"
-            color="secondary"
-            onClick={closeModal}
-          >
-            Close
-          </Button>
-        </Box>
       </TableContainer>
+      <Box className={classes.closeModalButton} textAlign="center">
+        <Button
+          type="button"
+          variant="contained"
+          color="secondary"
+          onClick={closeModal}
+        >
+          Close
+        </Button>
+      </Box>
     </Box>
   );
 
@@ -163,31 +163,33 @@ const AdminDashboard: React.FC = () => {
         }`}</p>
       </Box>
       {rsvpList && (
-        <TableContainer>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">Email</TableCell>
-                <TableCell align="left">Can Attend</TableCell>
-                <TableCell align="left">Date Submitted</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rsvpList.map((user, index) => (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {user.user_email}
-                  </TableCell>
-                  <TableCell align="left">
-                    {user.can_attend.toString()}
-                  </TableCell>
-                  <TableCell align="left">
-                    {user.date_submitted.slice(0, 10)}
-                  </TableCell>
+        <>
+          <TableContainer>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="left">Can Attend</TableCell>
+                  <TableCell align="left">Date Submitted</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {rsvpList.map((user, index) => (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {user.user_email}
+                    </TableCell>
+                    <TableCell align="left">
+                      {user.can_attend.toString()}
+                    </TableCell>
+                    <TableCell align="left">
+                      {user.date_submitted.slice(0, 10)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Box className={classes.closeModalButton} textAlign="center">
             <Button
               type="button"
@@ -198,7 +200,7 @@ const AdminDashboard: React.FC = () => {
               Close
             </Button>
           </Box>
-        </TableContainer>
+        </>
       )}
     </Box>
   );

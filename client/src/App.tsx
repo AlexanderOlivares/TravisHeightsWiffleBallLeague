@@ -10,6 +10,7 @@ import Theme from "./components/Theme";
 import AdminLogin from "./components/Admin/AdminLogin";
 import { ToastContainer } from "material-react-toastify";
 import AdminDashboard from "./components/Admin/AdminDashboard";
+import Rsvp from "./components/Rsvp";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/join" component={Join} />
               <Route exact path="/gameinfo" component={GameInfo} />
+              <Route exact path="/rsvp/:id" component={Rsvp} />
               <Route exact path="/unsubscribe" component={Unsubscribe} />
               <Route exact path="/admin" component={AdminLogin} />
               <Route exact path="/admin-dashboard" component={AdminDashboard} />

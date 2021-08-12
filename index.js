@@ -185,7 +185,10 @@ app.post("/api/admin/email-league", async (req, res) => {
     console.log(subjectLine, emailBody);
 
     emailList.forEach(user => {
-      const uniqueLinkId = "encoded email goes here";
+      const rawEmail = user.user_email;
+      const uniqueLinkId = Buffer.from(rawEmail).toString("base64");
+      console.log(uniqueLinkId);
+
       const mailOptions = {
         from: process.env.EMAIL_USERNAME,
         to: user.user_email,
@@ -194,7 +197,7 @@ app.post("/api/admin/email-league", async (req, res) => {
     	<p>${emailBody}</p>
     	<br>
 			<p> Rsvp:
-				<a href="http://localhost:5000/rsvp/${uniqueLinkId}</a>
+				<a href="http://localhost:3000/rsvp/${uniqueLinkId}</a>
 			</p>
     	<small>Please do not reply to this email.</small>
     	<small>
@@ -220,7 +223,6 @@ app.post("/api/admin/email-league", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  // res.sendFile(path.join(__dirname, "client/build/index.html"));
   res.redirect("https://wiffle.herokuapp.com/");
 });
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, TextField } from "@material-ui/core";
+import { Box, Typography, Button } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -8,25 +8,27 @@ import GlobalStyles from "./GlobalStyles";
 import { toast } from "material-react-toastify";
 import "material-react-toastify/dist/ReactToastify.css";
 import Map from "./Map";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { useParams } from "react-router";
 
-const GameInfo: React.FC = () => {
+interface IParams {
+  id: string;
+}
+
+const Rsvp: React.FC = () => {
+  const { id } = useParams<IParams>();
+  const decodedEmail = atob(id);
+  console.log(decodedEmail);
+
   const mapType: string = "hybrid";
 
-  const [redirectToJoin, setRedirectToJoin] = useState<boolean>(false);
+  const [redirectToGameInfo, setRedirectToGameInfo] = useState<boolean>(false);
   const [rsvp, setRsvp] = useState<string>("true");
-  const [userEmail, setUserEmail] = useState<string>("");
 
   const handleRadioButtons = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setRsvp((event.target as HTMLInputElement).value);
-  };
-
-  const handleUserEmail = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setUserEmail(event.target.value);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -35,10 +37,10 @@ const GameInfo: React.FC = () => {
 
     try {
       const body: {
-        userEmail: string;
+        decodedEmail: string;
         RSVP_BOOL: boolean;
       } = {
-        userEmail,
+        decodedEmail,
         RSVP_BOOL,
       };
 
@@ -55,7 +57,7 @@ const GameInfo: React.FC = () => {
       // will be false if no email match is found for user
       if (!successfulRsvp) {
         toast.error("Please sign up for the league before RSVPing");
-        setRedirectToJoin(true);
+        setRedirectToGameInfo(true);
       } else {
         // warning is correct. I want the orange alert to match color scheme
         toast.warning(successfulRsvp);
@@ -68,7 +70,7 @@ const GameInfo: React.FC = () => {
 
   return (
     <>
-      {redirectToJoin && <Redirect to="/join" />}
+      {redirectToGameInfo && <Redirect to="/gameinfo" />}
       <Box style={GlobalStyles.card}>
         <Box>
           <Typography align="center" variant="h3">
@@ -80,7 +82,7 @@ const GameInfo: React.FC = () => {
         </Typography>
         <Box m={1}>
           <Typography align="center" variant="h6">
-            RSVP
+            One-click RSVP
           </Typography>
         </Box>
         <form onSubmit={handleSubmit}>
@@ -106,20 +108,6 @@ const GameInfo: React.FC = () => {
             </FormControl>
           </Box>
           <Box textAlign="center" m={2}>
-            <Box m={2}>
-              <TextField
-                onChange={handleUserEmail}
-                required
-                type="email"
-                size="small"
-                label="Email"
-                variant="outlined"
-                color="secondary"
-              />
-            </Box>
-            <Typography variant="subtitle1">
-              Please <Link to="/join">join</Link> the league before RSVP'ing
-            </Typography>
             <Box>
               <Button
                 type="submit"
@@ -146,4 +134,4 @@ const GameInfo: React.FC = () => {
   );
 };
 
-export default GameInfo;
+export default Rsvp;
