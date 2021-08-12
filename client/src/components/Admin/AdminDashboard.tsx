@@ -47,6 +47,11 @@ const AdminDashboard: React.FC = () => {
   const [userList, setUserList] = useState<IUser[]>();
   const [rsvpList, setRsvpList] = useState<IRsvp[]>();
 
+  useEffect(() => {
+    getUserList();
+    getRsvpList();
+  }, []);
+
   const captureSubjectLine = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -68,15 +73,10 @@ const AdminDashboard: React.FC = () => {
     setOpenRsvp(true);
   };
 
-  const handleClose = () => {
+  const closeModal = () => {
     setOpenUsers(false);
     setOpenRsvp(false);
   };
-
-  useEffect(() => {
-    getUserList();
-    getRsvpList();
-  }, []);
 
   const getUserList = async () => {
     try {
@@ -104,10 +104,11 @@ const AdminDashboard: React.FC = () => {
   };
 
   const userData = (
-    // <div style={modalStyle} className={classes.paper}>
     <Box className={classes.paper}>
       <Box className={classes.headers}>
-        <h2 id="user-list-modal">User List</h2>
+        <Typography variant="h4" id="user-list-modal">
+          User List
+        </Typography>
         <p id="number-of-users">{`Total Users: ${
           userList && userList.length
         }`}</p>
@@ -129,12 +130,21 @@ const AdminDashboard: React.FC = () => {
                     {user.user_name}
                   </TableCell>
                   <TableCell align="left">{user.user_email}</TableCell>
-                  {/* <TableCell align="right">{user.user_name}</TableCell> */}
                   <TableCell align="left">{user.days_can_play}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
+        <Box className={classes.closeModalButton} textAlign="center">
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            onClick={closeModal}
+          >
+            Close
+          </Button>
+        </Box>
       </TableContainer>
     </Box>
   );
@@ -142,21 +152,28 @@ const AdminDashboard: React.FC = () => {
   const rsvpData = (
     <Box className={classes.paper}>
       <Box className={classes.headers}>
-        <h2 id="simple-modal-title">RSVP List</h2>
-        <p id="simple-modal-description">rsvp modal duplicate</p>
+        <Typography variant="h4" id="rsvp-modal">
+          RSVP List
+        </Typography>
+        <p id="number-of-rsvps">{`RSVP'd Yes: ${
+          rsvpList && rsvpList.filter(rsvp => rsvp.can_attend).length
+        }`}</p>
+        <p id="number-of-rsvps">{`Total Responses: ${
+          rsvpList && rsvpList.length
+        }`}</p>
       </Box>
-      <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">Email</TableCell>
-              <TableCell align="left">Can Attend</TableCell>
-              <TableCell align="left">Date Submitted</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rsvpList &&
-              rsvpList.map((user, index) => (
+      {rsvpList && (
+        <TableContainer>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">Email</TableCell>
+                <TableCell align="left">Can Attend</TableCell>
+                <TableCell align="left">Date Submitted</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rsvpList.map((user, index) => (
                 <TableRow key={index}>
                   <TableCell component="th" scope="row">
                     {user.user_email}
@@ -164,15 +181,50 @@ const AdminDashboard: React.FC = () => {
                   <TableCell align="left">
                     {user.can_attend.toString()}
                   </TableCell>
-                  {/* STILL NEED TO FORMAT DATE */}
-                  {/* <TableCell align="left">{user.date_submitted}</TableCell> */}
+                  <TableCell align="left">
+                    {user.date_submitted.slice(0, 10)}
+                  </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableBody>
+          </Table>
+          <Box className={classes.closeModalButton} textAlign="center">
+            <Button
+              type="button"
+              variant="contained"
+              color="secondary"
+              onClick={closeModal}
+            >
+              Close
+            </Button>
+          </Box>
+        </TableContainer>
+      )}
     </Box>
   );
+
+  const sendLeagueEmail = async () => {
+    try {
+      const body = { subjectLine, emailBody };
+
+      const response = await fetch(
+        `http://localhost:5000/api/admin/email-league`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const parsedRes = await response.json();
+
+      console.log(parsedRes);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <>
@@ -186,29 +238,33 @@ const AdminDashboard: React.FC = () => {
           <Typography align="center" variant="h5">
             League Members
           </Typography>
-          <Button
-            id="users"
-            onClick={openUserModal}
-            size="medium"
-            variant="contained"
-            color="secondary"
-          >
-            View
-          </Button>
+          <Box p={1}>
+            <Button
+              id="users"
+              onClick={openUserModal}
+              size="medium"
+              variant="contained"
+              color="secondary"
+            >
+              View
+            </Button>
+          </Box>
         </Box>
         <Box m={3} textAlign="center">
           <Typography align="center" variant="h5">
             RSVPs
           </Typography>
-          <Button
-            id="rsvp"
-            onClick={openRsvpModal}
-            size="medium"
-            variant="contained"
-            color="secondary"
-          >
-            View
-          </Button>
+          <Box p={1}>
+            <Button
+              id="rsvp"
+              onClick={openRsvpModal}
+              size="medium"
+              variant="contained"
+              color="secondary"
+            >
+              View
+            </Button>
+          </Box>
         </Box>
         <Box textAlign="center" p={2} m={3}>
           <Typography align="center" variant="h4">
@@ -236,7 +292,12 @@ const AdminDashboard: React.FC = () => {
             onChange={captureEmailBody}
           />
           <Box m={3} textAlign="center">
-            <Button size="medium" variant="contained" color="secondary">
+            <Button
+              onClick={sendLeagueEmail}
+              size="medium"
+              variant="contained"
+              color="secondary"
+            >
               Send Email
             </Button>
           </Box>
@@ -244,7 +305,7 @@ const AdminDashboard: React.FC = () => {
       </Box>
       <Modal
         open={openUsers}
-        onClose={handleClose}
+        onClose={closeModal}
         aria-labelledby="users"
         aria-describedby="user-modal"
       >
@@ -252,7 +313,7 @@ const AdminDashboard: React.FC = () => {
       </Modal>
       <Modal
         open={openRsvp}
-        onClose={handleClose}
+        onClose={closeModal}
         aria-labelledby="rsvp"
         aria-describedby="rsvp-modal"
       >

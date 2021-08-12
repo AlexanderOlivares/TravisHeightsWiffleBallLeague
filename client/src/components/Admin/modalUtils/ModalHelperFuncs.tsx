@@ -33,11 +33,15 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     headers: {
       padding: "2%",
+      //   margin: "2%",
     },
     table: {
       //   minWidth: "80vw",
       //   maxWidth: "80vw",
       //   margin: "15%",
+    },
+    closeModalButton: {
+      padding: "3%",
     },
   })
 );
