@@ -14,17 +14,8 @@ import {
   TableRow,
 } from "@material-ui/core";
 import GlobalStyles from "../GlobalStyles";
-// import SimpleModal from "./SimpleModal";
-import { getModalStyle, useStyles } from "./modalUtils/ModalHelperFuncs";
-import { Interface } from "readline";
-import { string } from "yargs";
-import { createNoSubstitutionTemplateLiteral } from "typescript";
+import { useStyles } from "./modalUtils/ModalHelperFuncs";
 
-// const useStyles = makeStyles({
-// 	table: {
-// 	  minWidth: 650,
-// 	},
-//   });
 interface IUser {
   user_name: string;
   user_email: string;
@@ -39,7 +30,6 @@ interface IRsvp {
 
 const AdminDashboard: React.FC = () => {
   const classes = useStyles();
-  //   const [modalStyle] = React.useState(getModalStyle);
   const [openUsers, setOpenUsers] = React.useState<boolean>(false);
   const [openRsvp, setOpenRsvp] = React.useState<boolean>(false);
   const [subjectLine, setSubjectLine] = useState<string>("");

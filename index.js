@@ -8,6 +8,8 @@ app.use(cors());
 app.use(express.json());
 const pool = require("./db");
 const nodemailer = require("nodemailer");
+const jwtGenerator = require("./utils/jwtGenerator");
+const bcrypt = require("bcrypt");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
@@ -212,7 +214,7 @@ app.post("/api/admin/email-league", async (req, res) => {
     	`,
       };
 
-      // COMMENTED OUT TO PREVENT EMAILING DURING DEVELOPMENT
+      // COMMENT OUT TO PREVENT EMAILING DURING DEVELOPMENT
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log(error);
@@ -225,6 +227,46 @@ app.post("/api/admin/email-league", async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.json(`Error couldn't send emails: ${error.message}`);
+  }
+});
+
+const saltPass = async password => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = bcrypt.hash(password, salt);
+  return hashedPassword;
+};
+
+app.post("/api/admin-login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const admin = await pool.query(
+      "SELECT * FROM admin WHERE admin_email = $1",
+      [email]
+    );
+
+    if (admin.rows.length === 0) {
+      return res
+        .status(401)
+        .send("No admin account is associated with the provided email");
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      password,
+      admin.rows[0].admin_password
+    );
+
+    if (!isValidPassword) {
+      return res.status(401).send("Password is incorrect");
+    }
+
+    const { admin_name: name } = admin.rows[0];
+
+    const token = jwtGenerator(name, email);
+
+    res.json({ token });
+  } catch (error) {
+    console.error(error.message);
+    res.json(`Error could not login. ${error.message}`);
   }
 });
 

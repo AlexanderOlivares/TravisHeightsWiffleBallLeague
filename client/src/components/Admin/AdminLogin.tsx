@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Box, Typography, Button, TextField } from "@material-ui/core";
+import { stringify } from "querystring";
+import { toast } from "material-react-toastify";
 
 interface AdminCreds {
   email: string;
@@ -22,6 +24,39 @@ const AdminLogin: React.FC = () => {
         [name]: value,
       };
     });
+  };
+
+  const login = async () => {
+    const { email, password } = userAndPass;
+    try {
+      const body: {
+        email: string;
+        password: string;
+      } = {
+        email,
+        password,
+      };
+
+      const response = await fetch(`http://localhost:5000/api/admin-login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      const parsedRes = await response.json();
+      const validToken = parsedRes.token;
+
+      if (validToken) {
+        localStorage.setItem("token", validToken);
+        // set auth status here
+        toast.warning(`Welcome!`);
+      }
+    } catch (error) {
+      console.error(error.message);
+      toast.error(`Error could not login. Username or password is incorrect`);
+    }
   };
 
   return (
@@ -56,6 +91,7 @@ const AdminLogin: React.FC = () => {
         </Box>
         <Box>
           <Button
+            onClick={login}
             type="submit"
             size="medium"
             variant="contained"
