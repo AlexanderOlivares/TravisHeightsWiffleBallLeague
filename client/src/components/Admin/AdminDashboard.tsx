@@ -97,7 +97,6 @@ const AdminDashboard: React.FC = () => {
       });
       const parsedRes = await response.json();
       setRsvpList(parsedRes);
-      console.log(parsedRes);
     } catch (error) {
       console.error(error.message);
     }
@@ -206,6 +205,8 @@ const AdminDashboard: React.FC = () => {
   );
 
   const sendLeagueEmail = async () => {
+    if (!window.confirm(`Confirm: Send email to entire league?`)) return;
+
     try {
       const body = { subjectLine, emailBody };
 

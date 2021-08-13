@@ -182,12 +182,10 @@ app.post("/api/admin/email-league", async (req, res) => {
     const { subjectLine, emailBody } = req.body;
     const getEmails = await pool.query("SELECT user_email FROM users");
     const emailList = getEmails.rows;
-    console.log(subjectLine, emailBody);
 
     emailList.forEach(user => {
       const rawEmail = user.user_email;
-      const uniqueLinkId = Buffer.from(rawEmail).toString("base64");
-      console.log(uniqueLinkId);
+      const encodedEmail = Buffer.from(rawEmail).toString("base64");
 
       const mailOptions = {
         from: process.env.EMAIL_USERNAME,
@@ -195,10 +193,18 @@ app.post("/api/admin/email-league", async (req, res) => {
         subject: subjectLine,
         html: `
     	<p>${emailBody}</p>
+			<div>
+				<a href="http://localhost:3000/rsvp/${encodedEmail}">Click here to RSVP</a>
+			</div>
     	<br>
-			<p> Rsvp:
-				<a href="http://localhost:3000/rsvp/${uniqueLinkId}</a>
-			</p>
+    	<br>
+    	<br>
+    	<br>
+    	<br>
+    	<br>
+    	<br>
+    	<br>
+    	<br>
     	<small>Please do not reply to this email.</small>
     	<small>
     		<a href="https://wiffle.herokuapp.com/unsubscribe">Unsubscribe</a>
@@ -207,14 +213,14 @@ app.post("/api/admin/email-league", async (req, res) => {
       };
 
       // COMMENTED OUT TO PREVENT EMAILING DURING DEVELOPMENT
-      //   transporter.sendMail(mailOptions, (error, info) => {
-      //     if (error) {
-      //       console.log(error);
-      //     } else {
-      //       res.json("Email sent successfully");
-      //       console.log("Email sent: " + info.response);
-      //     }
-      //   });
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          res.json("Email sent successfully");
+          console.log("Email sent: " + info.response);
+        }
+      });
     });
   } catch (error) {
     console.error(error.message);

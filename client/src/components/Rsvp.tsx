@@ -17,12 +17,11 @@ interface IParams {
 
 const Rsvp: React.FC = () => {
   const { id } = useParams<IParams>();
-  const decodedEmail = atob(id);
-  console.log(decodedEmail);
+  const userEmail: string = atob(id);
 
   const mapType: string = "hybrid";
 
-  const [redirectToGameInfo, setRedirectToGameInfo] = useState<boolean>(false);
+  const [redirectToJoin, setRedirectToJoin] = useState<boolean>(false);
   const [rsvp, setRsvp] = useState<string>("true");
 
   const handleRadioButtons = (
@@ -37,10 +36,10 @@ const Rsvp: React.FC = () => {
 
     try {
       const body: {
-        decodedEmail: string;
+        userEmail: string;
         RSVP_BOOL: boolean;
       } = {
-        decodedEmail,
+        userEmail,
         RSVP_BOOL,
       };
 
@@ -57,7 +56,7 @@ const Rsvp: React.FC = () => {
       // will be false if no email match is found for user
       if (!successfulRsvp) {
         toast.error("Please sign up for the league before RSVPing");
-        setRedirectToGameInfo(true);
+        setRedirectToJoin(true);
       } else {
         // warning is correct. I want the orange alert to match color scheme
         toast.warning(successfulRsvp);
@@ -70,7 +69,7 @@ const Rsvp: React.FC = () => {
 
   return (
     <>
-      {redirectToGameInfo && <Redirect to="/gameinfo" />}
+      {redirectToJoin && <Redirect to="/join" />}
       <Box style={GlobalStyles.card}>
         <Box>
           <Typography align="center" variant="h3">
