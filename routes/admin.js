@@ -2,6 +2,15 @@ const router = require("express").Router();
 require("dotenv").config();
 const auth = require("../middleware/auth");
 const pool = require("../db");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
 
 router.get("/admin/users", auth, async (req, res) => {
   try {
@@ -73,6 +82,15 @@ router.post("/admin/email-league", auth, async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.json(`Error couldn't send emails: ${error.message}`);
+  }
+});
+
+router.get("/admin/is-verified", auth, async (req, res) => {
+  try {
+    res.json(true);
+  } catch (err) {
+    res.status(500).json("Server Error");
+    console.error(err.message);
   }
 });
 

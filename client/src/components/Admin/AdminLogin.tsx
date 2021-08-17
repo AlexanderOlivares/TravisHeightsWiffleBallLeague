@@ -7,7 +7,11 @@ interface AdminCreds {
   password: string;
 }
 
-const AdminLogin: React.FC = () => {
+interface IProps {
+  setAuth: () => void;
+}
+
+const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
   const [userAndPass, setUserAndPass] = useState<AdminCreds>({
     email: "",
     password: "",
@@ -50,6 +54,7 @@ const AdminLogin: React.FC = () => {
       if (validToken) {
         localStorage.setItem("token", validToken);
         // set auth status here
+        setAuth();
         toast.warning(`Welcome!`);
       }
     } catch (error) {
