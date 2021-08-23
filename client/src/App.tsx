@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Route,
-  Switch,
-  Redirect,
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Join from "./components/Join";
@@ -17,11 +12,6 @@ import AdminLogin from "./components/Admin/AdminLogin";
 import { ToastContainer } from "material-react-toastify";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import Rsvp from "./components/Rsvp";
-
-// export interface IProps {
-//   setAuth: () => void;
-//   //   setAuth: setAuth()
-// }
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -41,8 +31,6 @@ function App() {
       verifiedToken === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
-
-      //   console.log(`token: ${verifiedToken}`);
     } catch (err) {
       setIsAuthenticated(false);
       console.error(err.message);
@@ -52,7 +40,6 @@ function App() {
   useEffect(() => {
     isAuth();
   }, []);
-  console.log(`Auth status: ${isAuthenticated}`);
 
   const setAuth = () => setIsAuthenticated(!isAuthenticated);
 
@@ -68,7 +55,6 @@ function App() {
               <Route exact path="/gameinfo" component={GameInfo} />
               <Route exact path="/rsvp/:id" component={Rsvp} />
               <Route exact path="/unsubscribe" component={Unsubscribe} />
-              <Route exact path="/admin-dashboard" component={AdminDashboard} />
               <Route exact path="/admin">
                 {isAuthenticated ? (
                   <AdminDashboard setAuth={setAuth} />

@@ -41,10 +41,6 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
   const [userList, setUserList] = useState<IUser[]>();
   const [rsvpList, setRsvpList] = useState<IRsvp[]>();
 
-  ///////////////////
-  // setAuth will be used for logout button
-  ///////////////////
-
   useEffect(() => {
     getUserList();
     getRsvpList();
@@ -64,12 +60,10 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
 
   const openUserModal = () => {
     getUserList();
-    renderUserData();
     setOpenUsers(true);
   };
   const openRsvpModal = () => {
     getRsvpList();
-    renderRsvpData();
     setOpenRsvp(true);
   };
 
@@ -108,24 +102,17 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
     }
   };
 
-  const placeHolder: IUser = {
-    user_name: "",
-    user_email: "",
-    days_can_play: ["empty"],
-  };
-
-  let userData: JSX.Element = <></>;
-  const renderUserData = () => {
-    userData = (
-      <Box className={classes.paper}>
-        <Box className={classes.headers}>
-          <Typography variant="h4" id="user-list-modal">
-            User List
-          </Typography>
-          <p id="number-of-users">{`Total Users: ${
-            userList && userList.length
-          }`}</p>
-        </Box>
+  const userData = (
+    <Box className={classes.paper}>
+      <Box className={classes.headers}>
+        <Typography variant="h4" id="user-list-modal">
+          User List
+        </Typography>
+        <p id="number-of-users">{`Total Users: ${
+          userList && userList.length
+        }`}</p>
+      </Box>
+      {userList && (
         <TableContainer>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -136,191 +123,87 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {userList?.length &&
-                userList.map((user, index) => (
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">
-                      {user.user_name}
-                    </TableCell>
-                    <TableCell align="left">{user.user_email}</TableCell>
-                    <TableCell align="left">{user.days_can_play}</TableCell>
-                  </TableRow>
-                ))}
+              {userList.map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell component="th" scope="row">
+                    {user.user_name}
+                  </TableCell>
+                  <TableCell align="left">{user.user_email}</TableCell>
+                  <TableCell align="left">{user.days_can_play}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <Box className={classes.closeModalButton} textAlign="center">
-          <Button
-            type="button"
-            variant="contained"
-            color="secondary"
-            onClick={closeModal}
-          >
-            Close
-          </Button>
-        </Box>
+      )}
+      <Box className={classes.closeModalButton} textAlign="center">
+        <Button
+          type="button"
+          variant="contained"
+          color="secondary"
+          onClick={closeModal}
+        >
+          Close
+        </Button>
       </Box>
-    );
-  };
-  //   const userData = (
-  //     <Box className={classes.paper}>
-  //       <Box className={classes.headers}>
-  //         <Typography variant="h4" id="user-list-modal">
-  //           User List
-  //         </Typography>
-  //         <p id="number-of-users">{`Total Users: ${
-  //           userList && userList.length
-  //         }`}</p>
-  //       </Box>
-  //       <TableContainer>
-  //         <Table className={classes.table} aria-label="simple table">
-  //           <TableHead>
-  //             <TableRow>
-  //               <TableCell>Name</TableCell>
-  //               <TableCell align="left">Email</TableCell>
-  //               <TableCell align="left">Days Can Play</TableCell>
-  //             </TableRow>
-  //           </TableHead>
-  //           <TableBody>
-  //             {userList?.length &&
-  //               userList.map((user, index) => (
-  //                 <TableRow key={index}>
-  //                   <TableCell component="th" scope="row">
-  //                     {user.user_name}
-  //                   </TableCell>
-  //                   <TableCell align="left">{user.user_email}</TableCell>
-  //                   <TableCell align="left">{user.days_can_play}</TableCell>
-  //                 </TableRow>
-  //               ))}
-  //           </TableBody>
-  //         </Table>
-  //       </TableContainer>
-  //       <Box className={classes.closeModalButton} textAlign="center">
-  //         <Button
-  //           type="button"
-  //           variant="contained"
-  //           color="secondary"
-  //           onClick={closeModal}
-  //         >
-  //           Close
-  //         </Button>
-  //       </Box>
-  //     </Box>
-  //   );
+    </Box>
+  );
 
-  let rsvpData: JSX.Element = <></>;
-  const renderRsvpData = () => {
-    rsvpData = (
-      <Box className={classes.paper}>
-        <Box className={classes.headers}>
-          <Typography variant="h4" id="rsvp-modal">
-            RSVP List
-          </Typography>
-          <p id="number-of-rsvps">{`RSVP'd Yes: ${
-            rsvpList && rsvpList.filter(rsvp => rsvp.can_attend).length
-          }`}</p>
-          <p id="number-of-rsvps">{`Total Responses: ${
-            rsvpList && rsvpList.length
-          }`}</p>
-        </Box>
-        {rsvpList && (
-          <>
-            <TableContainer>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">Email</TableCell>
-                    <TableCell align="left">Can Attend</TableCell>
-                    <TableCell align="left">Date Submitted</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rsvpList.map((user, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {user.user_email}
-                      </TableCell>
-                      <TableCell align="left">
-                        {user.can_attend.toString()}
-                      </TableCell>
-                      <TableCell align="left">
-                        {user.date_submitted.slice(0, 10)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Box className={classes.closeModalButton} textAlign="center">
-              <Button
-                type="button"
-                variant="contained"
-                color="secondary"
-                onClick={closeModal}
-              >
-                Close
-              </Button>
-            </Box>
-          </>
-        )}
+  const rsvpData = (
+    <Box className={classes.paper}>
+      <Box className={classes.headers}>
+        <Typography variant="h4" id="rsvp-modal">
+          RSVP List
+        </Typography>
+        <p id="number-of-rsvps">{`RSVP'd Yes: ${
+          rsvpList && rsvpList.filter(rsvp => rsvp.can_attend).length
+        }`}</p>
+        <p id="number-of-rsvps">{`Total Responses: ${
+          rsvpList && rsvpList.length
+        }`}</p>
       </Box>
-    );
-  };
-  //   const rsvpData = (
-  //     <Box className={classes.paper}>
-  //       <Box className={classes.headers}>
-  //         <Typography variant="h4" id="rsvp-modal">
-  //           RSVP List
-  //         </Typography>
-  //         <p id="number-of-rsvps">{`RSVP'd Yes: ${
-  //           rsvpList && rsvpList.filter(rsvp => rsvp.can_attend).length
-  //         }`}</p>
-  //         <p id="number-of-rsvps">{`Total Responses: ${
-  //           rsvpList && rsvpList.length
-  //         }`}</p>
-  //       </Box>
-  //       {rsvpList && (
-  //         <>
-  //           <TableContainer>
-  //             <Table className={classes.table} aria-label="simple table">
-  //               <TableHead>
-  //                 <TableRow>
-  //                   <TableCell align="left">Email</TableCell>
-  //                   <TableCell align="left">Can Attend</TableCell>
-  //                   <TableCell align="left">Date Submitted</TableCell>
-  //                 </TableRow>
-  //               </TableHead>
-  //               <TableBody>
-  //                 {rsvpList.map((user, index) => (
-  //                   <TableRow key={index}>
-  //                     <TableCell component="th" scope="row">
-  //                       {user.user_email}
-  //                     </TableCell>
-  //                     <TableCell align="left">
-  //                       {user.can_attend.toString()}
-  //                     </TableCell>
-  //                     <TableCell align="left">
-  //                       {user.date_submitted.slice(0, 10)}
-  //                     </TableCell>
-  //                   </TableRow>
-  //                 ))}
-  //               </TableBody>
-  //             </Table>
-  //           </TableContainer>
-  //           <Box className={classes.closeModalButton} textAlign="center">
-  //             <Button
-  //               type="button"
-  //               variant="contained"
-  //               color="secondary"
-  //               onClick={closeModal}
-  //             >
-  //               Close
-  //             </Button>
-  //           </Box>
-  //         </>
-  //       )}
-  //     </Box>
-  //   );
+      {rsvpList && (
+        <>
+          <TableContainer>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="left">Can Attend</TableCell>
+                  <TableCell align="left">Date Submitted</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rsvpList.map((user, index) => (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {user.user_email}
+                    </TableCell>
+                    <TableCell align="left">
+                      {user.can_attend.toString()}
+                    </TableCell>
+                    <TableCell align="left">
+                      {user.date_submitted.slice(0, 10)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box className={classes.closeModalButton} textAlign="center">
+            <Button
+              type="button"
+              variant="contained"
+              color="secondary"
+              onClick={closeModal}
+            >
+              Close
+            </Button>
+          </Box>
+        </>
+      )}
+    </Box>
+  );
 
   const sendLeagueEmail = async () => {
     if (!window.confirm(`Confirm: Send email to entire league?`)) return;
@@ -348,8 +231,30 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
     }
   };
 
+  const signOut = async () => {
+    try {
+      localStorage.removeItem("token");
+      setAuth();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <>
+      <Box textAlign="right" mr={2}>
+        <Button size="small" variant="contained" color="secondary">
+          Reset Password
+        </Button>
+        <Button
+          onClick={signOut}
+          size="small"
+          variant="contained"
+          color="secondary"
+        >
+          logout
+        </Button>
+      </Box>
       <Box style={GlobalStyles.card}>
         <Box>
           <Typography align="center" variant="h3">

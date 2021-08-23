@@ -53,7 +53,6 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
 
       if (validToken) {
         localStorage.setItem("token", validToken);
-        // set auth status here
         setAuth();
         toast.warning(`Welcome!`);
       }
