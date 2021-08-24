@@ -67,8 +67,8 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
     }
   };
 
-  const openEmailModal = () => setEmailModal(true);
-  const closeEmailModal = () => setEmailModal(false);
+  const openEmailModal = (): void => setEmailModal(true);
+  const closeEmailModal = (): void => setEmailModal(false);
 
   const captureEmailForPassReset = (
     Event: React.ChangeEvent<HTMLInputElement>
@@ -76,9 +76,27 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
     setEmailForPassReset(Event.target.value);
   };
 
-  const sendPassResetEmail = () => {
-    /// logic for password reset email goes here
-    console.log("sending email");
+  const sendPassResetEmail = async () => {
+    try {
+      const body = { emailForPassReset };
+      console.log(body);
+      const response = await fetch(
+        `http://localhost:5000/api/admin/send-reset-email`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const parsedRes = await response.json();
+      toast.warning(parsedRes);
+      closeEmailModal();
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const renderEmailModal = (

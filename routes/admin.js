@@ -34,6 +34,8 @@ router.get("/admin/rsvp", auth, async (req, res) => {
   }
 });
 
+const base64Encode = strToEncode => Buffer.from(strToEncode).toString("base64");
+
 router.post("/admin/email-league", auth, async (req, res) => {
   try {
     const { subjectLine, emailBody } = req.body;
@@ -42,7 +44,8 @@ router.post("/admin/email-league", auth, async (req, res) => {
 
     emailList.forEach(user => {
       const rawEmail = user.user_email;
-      const encodedEmail = Buffer.from(rawEmail).toString("base64");
+      // const encodedEmail = Buffer.from(rawEmail).toString("base64");
+      const encodedEmail = base64Encode(rawEmail);
 
       const mailOptions = {
         from: process.env.EMAIL_USERNAME,
@@ -85,12 +88,46 @@ router.post("/admin/email-league", auth, async (req, res) => {
   }
 });
 
-router.get("/admin/is-verified", auth, async (req, res) => {
+router.post("/admin/send-reset-email", async (req, res) => {
+  const { emailForPassReset } = req.body;
   try {
-    res.json(true);
-  } catch (err) {
-    res.status(500).json("Server Error");
-    console.error(err.message);
+    const isValidAdminEmail = await pool.query(
+      "SELECT admin_email FROM admin WHERE admin_email = $1",
+      [emailForPassReset]
+    );
+
+    // admin email not on file
+    if (isValidAdminEmail.rows.length !== 1) {
+      return res.status(401).json("Invalid Admin Email");
+    }
+
+    const encodedEmail = base64Encode(emailForPassReset);
+
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: emailForPassReset,
+      subject: "Reset Password",
+      html: `
+			<p>Use the link below to reset your password.</p>
+			<div>
+				<a href="http://localhost:3000/resetpassword/${encodedEmail}">Click here to reset admin password</a>
+			</div>
+			<br>
+			<small>Please do not reply to this email.</small>
+			`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        res.json("Email sent successfully");
+        console.log("Email sent: " + info.response);
+      }
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.json(error.message);
   }
 });
 
@@ -99,5 +136,14 @@ router.get("/admin/is-verified", auth, async (req, res) => {
 //   const hashedPassword = bcrypt.hash(password, salt);
 //   return hashedPassword;
 // };
+
+router.get("/admin/is-verified", auth, async (req, res) => {
+  try {
+    res.json(true);
+  } catch (err) {
+    res.status(500).json("Server Error");
+    console.error(err.message);
+  }
+});
 
 module.exports = router;

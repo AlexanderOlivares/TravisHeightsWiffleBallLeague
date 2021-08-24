@@ -56,7 +56,11 @@ function App() {
               <Route exact path="/gameinfo" component={GameInfo} />
               <Route exact path="/rsvp/:id" component={Rsvp} />
               <Route exact path="/unsubscribe" component={Unsubscribe} />
-              <Route exact path="/resetpassword" component={ResetPassword} />
+              <Route
+                exact
+                path="/resetpassword/:id?"
+                component={ResetPassword}
+              />
               <Route exact path="/admin">
                 {isAuthenticated ? (
                   <AdminDashboard setAuth={setAuth} />
