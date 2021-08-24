@@ -12,6 +12,7 @@ import AdminLogin from "./components/Admin/AdminLogin";
 import { ToastContainer } from "material-react-toastify";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import Rsvp from "./components/Rsvp";
+import ResetPassword from "./components/Admin/ResetPassword";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -55,6 +56,7 @@ function App() {
               <Route exact path="/gameinfo" component={GameInfo} />
               <Route exact path="/rsvp/:id" component={Rsvp} />
               <Route exact path="/unsubscribe" component={Unsubscribe} />
+              <Route exact path="/resetpassword" component={ResetPassword} />
               <Route exact path="/admin">
                 {isAuthenticated ? (
                   <AdminDashboard setAuth={setAuth} />

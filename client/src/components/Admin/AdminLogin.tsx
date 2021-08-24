@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, TextField } from "@material-ui/core";
+import { Box, Typography, Button, TextField, Modal } from "@material-ui/core";
 import { toast } from "material-react-toastify";
+import { useStyles } from "./modalUtils/ModalHelperFuncs";
 
 interface AdminCreds {
   email: string;
@@ -12,6 +13,10 @@ interface IProps {
 }
 
 const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
+  const classes = useStyles();
+  const [emailModal, setEmailModal] = React.useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [emailForPassReset, setEmailForPassReset] = useState<string>("");
   const [userAndPass, setUserAndPass] = useState<AdminCreds>({
     email: "",
     password: "",
@@ -62,15 +67,34 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
     }
   };
 
-  return (
-    <Box>
-      <Typography align="center" variant="h3">
-        Admin Login
-      </Typography>
-      <Box textAlign="center" m={2}>
-        <Box m={2}>
+  const openEmailModal = () => setEmailModal(true);
+  const closeEmailModal = () => setEmailModal(false);
+
+  const captureEmailForPassReset = (
+    Event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setEmailForPassReset(Event.target.value);
+  };
+
+  const sendPassResetEmail = () => {
+    /// logic for password reset email goes here
+    console.log("sending email");
+  };
+
+  const renderEmailModal = (
+    <Box className={classes.paper}>
+      <Box textAlign="center" className={classes.headers}>
+        <Typography variant="h4">Reset Password</Typography>
+        <Typography variant="h6">
+          {`
+		  We'll send you a password reset email
+       `}
+        </Typography>
+      </Box>
+      <>
+        <Box textAlign="center" m={2}>
           <TextField
-            onChange={handleAdminCreds}
+            onChange={captureEmailForPassReset}
             required
             name="email"
             type="email"
@@ -80,31 +104,85 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
             color="secondary"
           />
         </Box>
-        <Box m={2}>
-          <TextField
-            onChange={handleAdminCreds}
-            required
-            name="password"
-            type="password"
-            size="small"
-            label="password"
-            variant="outlined"
-            color="secondary"
-          />
-        </Box>
-        <Box>
+        <Box p={2} className={classes.closeModalButton} textAlign="center">
           <Button
-            onClick={login}
-            type="submit"
-            size="medium"
+            style={{ marginRight: "15px" }}
+            type="button"
             variant="contained"
             color="secondary"
+            onClick={sendPassResetEmail}
           >
-            Submit
+            Send Email
+          </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            onClick={closeEmailModal}
+          >
+            Cancel
           </Button>
         </Box>
-      </Box>
+      </>
     </Box>
+  );
+
+  return (
+    <>
+      <Box>
+        <Typography align="center" variant="h3">
+          Admin Login
+        </Typography>
+        <Box textAlign="center" m={2}>
+          <Box m={2}>
+            <TextField
+              onChange={handleAdminCreds}
+              required
+              name="email"
+              type="email"
+              size="small"
+              label="Email"
+              variant="outlined"
+              color="secondary"
+            />
+          </Box>
+          <Box m={2}>
+            <TextField
+              onChange={handleAdminCreds}
+              required
+              name="password"
+              type="password"
+              size="small"
+              label="password"
+              variant="outlined"
+              color="secondary"
+            />
+          </Box>
+          <Button variant="text" color="primary" onClick={openEmailModal}>
+            Reset Password
+          </Button>
+          <Box mt={2}>
+            <Button
+              onClick={login}
+              type="submit"
+              size="medium"
+              variant="contained"
+              color="secondary"
+            >
+              Login
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+      <Modal
+        open={emailModal}
+        onClose={closeEmailModal}
+        aria-labelledby="password reset modal"
+        // aria-describedby="password reset modal"
+      >
+        {renderEmailModal}
+      </Modal>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -15,6 +16,7 @@ import {
 } from "@material-ui/core";
 import GlobalStyles from "../GlobalStyles";
 import { useStyles } from "./modalUtils/ModalHelperFuncs";
+import { toast } from "material-react-toastify";
 
 interface IUser {
   user_name: string;
@@ -36,14 +38,18 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
   const classes = useStyles();
   const [openUsers, setOpenUsers] = React.useState<boolean>(false);
   const [openRsvp, setOpenRsvp] = React.useState<boolean>(false);
+  const [renderResetPassword, setRenderResetPassword] =
+    React.useState<boolean>(false);
   const [subjectLine, setSubjectLine] = useState<string>("");
   const [emailBody, setEmailBody] = useState<string>("");
   const [userList, setUserList] = useState<IUser[]>();
   const [rsvpList, setRsvpList] = useState<IRsvp[]>();
+  const [adminName, setAdminName] = useState<string>("");
 
   useEffect(() => {
     getUserList();
     getRsvpList();
+    getAdminName();
   }, []);
 
   const captureSubjectLine = (
@@ -58,18 +64,27 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
     setEmailBody(event.target.value);
   };
 
-  const openUserModal = () => {
-    getUserList();
+  const openUserModal = async () => {
+    await getUserList();
     setOpenUsers(true);
   };
-  const openRsvpModal = () => {
-    getRsvpList();
+
+  const openRsvpModal = async () => {
+    await getRsvpList();
     setOpenRsvp(true);
   };
 
   const closeModal = () => {
     setOpenUsers(false);
     setOpenRsvp(false);
+  };
+
+  const getAdminName = async () => {
+    let token = localStorage.getItem("token")?.split(".");
+    if (token) {
+      let admin = JSON.parse(atob(token[1]));
+      setAdminName(admin.name);
+    }
   };
 
   const getUserList = async () => {
@@ -226,6 +241,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
       const parsedRes = await response.json();
 
       console.log(parsedRes);
+      toast.warning(parsedRes);
     } catch (error) {
       console.error(error.message);
     }
@@ -240,10 +256,21 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
     }
   };
 
+  const resetPassword = () => {
+    setRenderResetPassword(true);
+  };
+
   return (
     <>
+      {renderResetPassword && <Redirect to="/resetpassword" />}
       <Box textAlign="right" mr={2}>
-        <Button size="small" variant="contained" color="secondary">
+        <Button
+          style={{ margin: "4px" }}
+          size="small"
+          variant="contained"
+          color="secondary"
+          onClick={resetPassword}
+        >
           Reset Password
         </Button>
         <Button
@@ -259,6 +286,9 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
         <Box>
           <Typography align="center" variant="h3">
             Admin Dashboard
+          </Typography>
+          <Typography align="center" variant="h5">
+            hello {adminName}
           </Typography>
         </Box>
         <Box m={3} textAlign="center">
