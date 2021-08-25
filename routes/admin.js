@@ -46,7 +46,6 @@ router.post("/admin/email-league", auth, async (req, res) => {
 
     emailList.forEach(user => {
       const rawEmail = user.user_email;
-      // const encodedEmail = Buffer.from(rawEmail).toString("base64");
       const encodedEmail = base64Encode(rawEmail);
 
       const mailOptions = {
@@ -56,7 +55,7 @@ router.post("/admin/email-league", auth, async (req, res) => {
         html: `
     	<p>${emailBody}</p>
 			<div>
-				<a href="http://localhost:3000/rsvp/${encodedEmail}">Click here to RSVP</a>
+				<a href="https://wiffle.herokuapp.com/rsvp/${encodedEmail}">Click here to RSVP</a>
 			</div>
     	<br>
     	<br>
@@ -116,7 +115,7 @@ router.post("/admin/request-password-reset", async (req, res) => {
       html: `
 			<p>Use the link below to reset your password. Link expires in 15 minutes.</p>
 			<div>
-				<a href="http://localhost:3000/resetpassword/${encodedEmail}/${passwordResetToken}">Click here to reset admin password</a>
+				<a href="https://wiffle.herokuapp.com/resetpassword/${encodedEmail}/${passwordResetToken}">Click here to reset admin password</a>
 			</div>
 			<br>
 			<small>Please do not reply to this email.</small>

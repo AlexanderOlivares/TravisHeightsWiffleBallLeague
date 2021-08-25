@@ -44,7 +44,7 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
         password,
       };
 
-      const response = await fetch(`http://localhost:5000/api/admin-login`, {
+      const response = await fetch(`/api/admin-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,16 +79,13 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
     try {
       const body = { emailForPassReset };
 
-      const response = await fetch(
-        `http://localhost:5000/api/admin/request-password-reset`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(`/api/admin/request-password-reset`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
 
       const parsedRes = await response.json();
 

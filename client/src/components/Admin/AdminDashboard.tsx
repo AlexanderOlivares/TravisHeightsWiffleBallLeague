@@ -89,7 +89,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
 
   const getUserList = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/users`, {
+      const response = await fetch(`/api/admin/users`, {
         method: "GET",
         headers: {
           token: localStorage.token,
@@ -105,7 +105,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
 
   const getRsvpList = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/rsvp`, {
+      const response = await fetch(`/api/admin/rsvp`, {
         method: "GET",
         headers: {
           token: localStorage.token,
@@ -228,17 +228,14 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
     try {
       const body = { subjectLine, emailBody };
 
-      const response = await fetch(
-        `http://localhost:5000/api/admin/email-league`,
-        {
-          method: "POST",
-          headers: {
-            token: localStorage.token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(`/api/admin/email-league`, {
+        method: "POST",
+        headers: {
+          token: localStorage.token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
 
       const parsedRes = await response.json();
 

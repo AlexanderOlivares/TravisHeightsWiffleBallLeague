@@ -73,7 +73,7 @@ const ResetPassword: React.FC = () => {
       }
 
       const updatePassword = await fetch(
-        `http://localhost:5000/api/admin/resetpassword/${adminEmail}/${resetToken}`,
+        `/api/admin/resetpassword/${adminEmail}/${resetToken}`,
         {
           method: "PUT",
           headers: myHeaders,
