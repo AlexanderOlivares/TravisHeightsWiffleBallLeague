@@ -3,6 +3,8 @@ require("dotenv").config();
 const auth = require("../middleware/auth");
 const pool = require("../db");
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -72,7 +74,6 @@ router.post("/admin/email-league", auth, async (req, res) => {
     	`,
       };
 
-      // COMMENT OUT TO PREVENT EMAILING DURING DEVELOPMENT
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log(error);
@@ -88,29 +89,38 @@ router.post("/admin/email-league", auth, async (req, res) => {
   }
 });
 
-router.post("/admin/send-reset-email", async (req, res) => {
+router.post("/admin/request-password-reset", async (req, res) => {
   const { emailForPassReset } = req.body;
   try {
-    const isValidAdminEmail = await pool.query(
-      "SELECT admin_email FROM admin WHERE admin_email = $1",
+    const isValidAdminCreds = await pool.query(
+      "SELECT admin_email, admin_password FROM admin WHERE admin_email = $1",
       [emailForPassReset]
     );
 
     // admin email not on file
-    if (isValidAdminEmail.rows.length !== 1) {
+    if (isValidAdminCreds.rows.length !== 1) {
       return res.status(401).json("Invalid Admin Email");
     }
 
+    const hashedPassword = isValidAdminCreds.rows[0].admin_password;
+    const secret = process.env.JWT_SECRET + hashedPassword;
     const encodedEmail = base64Encode(emailForPassReset);
+    const payload = {
+      encodedEmail,
+    };
+
+    const passwordResetToken = jwt.sign(payload, secret, {
+      expiresIn: "15 min",
+    });
 
     const mailOptions = {
       from: process.env.EMAIL_USERNAME,
       to: emailForPassReset,
       subject: "Reset Password",
       html: `
-			<p>Use the link below to reset your password.</p>
+			<p>Use the link below to reset your password. Link expires in 15 minutes.</p>
 			<div>
-				<a href="http://localhost:3000/resetpassword/${encodedEmail}">Click here to reset admin password</a>
+				<a href="http://localhost:3000/resetpassword/${encodedEmail}/${passwordResetToken}">Click here to reset admin password</a>
 			</div>
 			<br>
 			<small>Please do not reply to this email.</small>
@@ -121,7 +131,7 @@ router.post("/admin/send-reset-email", async (req, res) => {
       if (error) {
         console.log(error);
       } else {
-        res.json("Email sent successfully");
+        res.json("Password reset email sent. Follow instructions in email.");
         console.log("Email sent: " + info.response);
       }
     });
@@ -131,11 +141,48 @@ router.post("/admin/send-reset-email", async (req, res) => {
   }
 });
 
-// const saltPass = async password => {
-//   const salt = await bcrypt.genSalt(10);
-//   const hashedPassword = bcrypt.hash(password, salt);
-//   return hashedPassword;
-// };
+router.put("/admin/resetpassword/:email/:resetToken?", async (req, res) => {
+  const { email, token: resetToken } = req.params;
+  const { password } = req.body;
+  const authTokenFromLocalStorage = req.header("token");
+
+  try {
+    const quereyOldPassword = await pool.query(
+      "SELECT admin_password FROM admin WHERE admin_email = $1",
+      [email]
+    );
+
+    if (resetToken) {
+      const oldHashedPassword = quereyOldPassword.rows[0].admin_password;
+      const secret = process.env.JWT_SECRET + oldHashedPassword;
+      jwt.verify(token, secret);
+    }
+
+    if (authTokenFromLocalStorage) {
+      jwt.verify(authTokenFromLocalStorage, process.env.JWT_SECRET);
+    }
+
+    const updatedPassword = await saltPass(password);
+
+    await pool.query(
+      "UPDATE admin SET admin_password = $1 WHERE admin_email = $2",
+      [updatedPassword, email]
+    );
+
+    res.json("Success. Your password has been reset.");
+  } catch (error) {
+    console.error(error.message);
+    res.json(
+      `Error could not reset password. Please request a new password reset.`
+    );
+  }
+});
+
+const saltPass = async password => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = bcrypt.hash(password, salt);
+  return hashedPassword;
+};
 
 router.get("/admin/is-verified", auth, async (req, res) => {
   try {

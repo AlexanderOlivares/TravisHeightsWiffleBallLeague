@@ -3,7 +3,7 @@ import { Box, Typography, Button, TextField, Modal } from "@material-ui/core";
 import { toast } from "material-react-toastify";
 import { useStyles } from "./modalUtils/ModalHelperFuncs";
 
-interface AdminCreds {
+interface IAdminCreds {
   email: string;
   password: string;
 }
@@ -15,9 +15,8 @@ interface IProps {
 const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
   const classes = useStyles();
   const [emailModal, setEmailModal] = React.useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [emailForPassReset, setEmailForPassReset] = useState<string>("");
-  const [userAndPass, setUserAndPass] = useState<AdminCreds>({
+  const [userAndPass, setUserAndPass] = useState<IAdminCreds>({
     email: "",
     password: "",
   });
@@ -81,7 +80,7 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
       const body = { emailForPassReset };
       console.log(body);
       const response = await fetch(
-        `http://localhost:5000/api/admin/send-reset-email`,
+        `http://localhost:5000/api/admin/request-password-reset`,
         {
           method: "POST",
           headers: {

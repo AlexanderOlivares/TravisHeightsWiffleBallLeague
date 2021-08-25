@@ -58,7 +58,7 @@ function App() {
               <Route exact path="/unsubscribe" component={Unsubscribe} />
               <Route
                 exact
-                path="/resetpassword/:id?"
+                path="/resetpassword/:email?/:resetToken?"
                 component={ResetPassword}
               />
               <Route exact path="/admin">
