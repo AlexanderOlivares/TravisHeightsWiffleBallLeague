@@ -78,7 +78,7 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
   const sendPassResetEmail = async () => {
     try {
       const body = { emailForPassReset };
-      console.log(body);
+
       const response = await fetch(
         `http://localhost:5000/api/admin/request-password-reset`,
         {
@@ -91,6 +91,7 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
       );
 
       const parsedRes = await response.json();
+
       toast.warning(parsedRes);
       closeEmailModal();
     } catch (error) {
@@ -195,7 +196,6 @@ const AdminLogin: React.FC<IProps> = ({ setAuth }) => {
         open={emailModal}
         onClose={closeEmailModal}
         aria-labelledby="password reset modal"
-        // aria-describedby="password reset modal"
       >
         {renderEmailModal}
       </Modal>

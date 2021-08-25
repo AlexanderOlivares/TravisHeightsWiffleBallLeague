@@ -97,7 +97,7 @@ const ResetPassword: React.FC = () => {
         <Typography align="center" variant="h4">
           {adminName || "Admin"} Password Reset
         </Typography>
-        <Typography align="center" variant="h4">
+        <Typography align="center" variant="h6">
           {adminEmail}
         </Typography>
         <Box textAlign="center" m={2}>

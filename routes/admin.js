@@ -63,10 +63,6 @@ router.post("/admin/email-league", auth, async (req, res) => {
     	<br>
     	<br>
     	<br>
-    	<br>
-    	<br>
-    	<br>
-    	<br>
     	<small>Please do not reply to this email.</small>
     	<small>
     		<a href="https://wiffle.herokuapp.com/unsubscribe">Unsubscribe</a>

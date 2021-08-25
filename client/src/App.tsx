@@ -27,14 +27,12 @@ function App() {
         }
       );
       const verifiedToken = await response.json();
-      console.log(verifiedToken);
 
       verifiedToken === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
     } catch (err) {
       setIsAuthenticated(false);
-      console.error(err.message);
     }
   }
 

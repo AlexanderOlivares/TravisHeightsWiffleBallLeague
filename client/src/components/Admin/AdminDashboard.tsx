@@ -99,6 +99,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
       setUserList(parsedRes);
     } catch (error) {
       console.error(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -114,6 +115,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
       setRsvpList(parsedRes);
     } catch (error) {
       console.error(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -244,6 +246,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
       toast.warning(parsedRes);
     } catch (error) {
       console.error(error.message);
+      toast.error(`Error sending league email: ${error.message}`);
     }
   };
 
@@ -253,6 +256,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
       setAuth();
     } catch (error) {
       console.error(error.message);
+      toast.error(`Error signing out: ${error.message}`);
     }
   };
 
@@ -339,6 +343,9 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
           </Box>
           <Typography align="center" variant="h6">
             Email Body
+          </Typography>
+          <Typography align="center" variant="caption">
+            {`Note: Email will be converted to html. Use <br> to insert a line break. Unique RSVP links will be embedded into emails sent from here. Only send if there is an upcoming game.`}
           </Typography>
           <TextareaAutosize
             name="body"
