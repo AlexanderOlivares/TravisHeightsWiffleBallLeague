@@ -190,7 +190,8 @@ app.post("/api/admin-login", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.redirect("https://wiffle.herokuapp.com/");
+  // res.redirect("https://wiffle.herokuapp.com/");
+  res.redirect("/");
 });
 
 app.listen(PORT, () => {
