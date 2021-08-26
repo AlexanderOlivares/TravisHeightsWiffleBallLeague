@@ -24,6 +24,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       margin: "5%",
       marginTop: "5%",
       marginBottom: "10%",
+      overflow: "scroll",
     },
     headers: {
       padding: "2%",
