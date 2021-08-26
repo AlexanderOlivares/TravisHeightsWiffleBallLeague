@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, TextField } from "@material-ui/core";
+import { Box, Typography, Button } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -8,25 +8,26 @@ import GlobalStyles from "./GlobalStyles";
 import { toast } from "material-react-toastify";
 import "material-react-toastify/dist/ReactToastify.css";
 import Map from "./Map";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { useParams } from "react-router";
 
-const GameInfo: React.FC = () => {
+interface IParams {
+  id: string;
+}
+
+const Rsvp: React.FC = () => {
+  const { id } = useParams<IParams>();
+  const userEmail: string = atob(id);
+
   const mapType: string = "hybrid";
 
   const [redirectToJoin, setRedirectToJoin] = useState<boolean>(false);
   const [rsvp, setRsvp] = useState<string>("true");
-  const [userEmail, setUserEmail] = useState<string>("");
 
   const handleRadioButtons = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setRsvp((event.target as HTMLInputElement).value);
-  };
-
-  const handleUserEmail = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setUserEmail(event.target.value);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -71,8 +72,8 @@ const GameInfo: React.FC = () => {
       {redirectToJoin && <Redirect to="/join" />}
       <Box style={GlobalStyles.card}>
         <Box>
-          <Typography align="center" variant="h4">
-            Next game is TBD
+          <Typography align="center" variant="h3">
+            Next Game is TBD
           </Typography>
         </Box>
         <Typography align="center" variant="h5">
@@ -80,7 +81,7 @@ const GameInfo: React.FC = () => {
         </Typography>
         <Box m={1}>
           <Typography align="center" variant="h6">
-            RSVP
+            One-click RSVP
           </Typography>
         </Box>
         <form onSubmit={handleSubmit}>
@@ -106,20 +107,6 @@ const GameInfo: React.FC = () => {
             </FormControl>
           </Box>
           <Box textAlign="center" m={2}>
-            <Box m={2}>
-              <TextField
-                onChange={handleUserEmail}
-                required
-                type="email"
-                size="small"
-                label="Email"
-                variant="outlined"
-                color="secondary"
-              />
-            </Box>
-            <Typography variant="subtitle1">
-              Please <Link to="/join">join</Link> the league before RSVP'ing
-            </Typography>
             <Box>
               <Button
                 type="submit"
@@ -146,4 +133,4 @@ const GameInfo: React.FC = () => {
   );
 };
 
-export default GameInfo;
+export default Rsvp;

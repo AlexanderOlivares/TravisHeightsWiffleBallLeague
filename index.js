@@ -8,6 +8,10 @@ app.use(cors());
 app.use(express.json());
 const pool = require("./db");
 const nodemailer = require("nodemailer");
+const jwtGenerator = require("./utils/jwtGenerator");
+const bcrypt = require("bcrypt");
+
+app.use("/api", require("./routes/admin"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
@@ -48,7 +52,7 @@ app.post("/api/join", async (req, res) => {
       "Woo-hoo! You have joined the league! We will email you about upcoming games."
     );
 
-    var mailOptions = {
+    const mailOptions = {
       from: process.env.EMAIL_USERNAME,
       to: email,
       subject: "Thanks for signing up!",
@@ -151,9 +155,42 @@ app.post("/api/unsubscribe", async (req, res) => {
   }
 });
 
+app.post("/api/admin-login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const admin = await pool.query(
+      "SELECT * FROM admin WHERE admin_email = $1",
+      [email]
+    );
+
+    if (admin.rows.length === 0) {
+      return res
+        .status(401)
+        .send("No admin account is associated with the provided email");
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      password,
+      admin.rows[0].admin_password
+    );
+
+    if (!isValidPassword) {
+      return res.status(401).send("Password is incorrect");
+    }
+
+    const { admin_name: name } = admin.rows[0];
+
+    const token = jwtGenerator(name, email);
+
+    res.json({ token });
+  } catch (error) {
+    console.error(error.message);
+    res.json(`Error could not login. ${error.message}`);
+  }
+});
+
 app.get("*", (req, res) => {
   res.redirect("https://wiffle.herokuapp.com/");
-  // res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
 
 app.listen(PORT, () => {
