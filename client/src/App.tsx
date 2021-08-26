@@ -19,13 +19,10 @@ function App() {
 
   async function isAuth() {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/admin/is-verified`,
-        {
-          method: "GET",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch(`/api/admin/is-verified`, {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
       const verifiedToken = await response.json();
 
       verifiedToken === true
