@@ -369,6 +369,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
         onClose={closeModal}
         aria-labelledby="users"
         aria-describedby="user-modal"
+        style={{ overflow: "scroll" }}
       >
         {userData}
       </Modal>
@@ -377,6 +378,7 @@ const AdminDashboard: React.FC<IProps> = ({ setAuth }) => {
         onClose={closeModal}
         aria-labelledby="rsvp"
         aria-describedby="rsvp-modal"
+        style={{ overflow: "scroll" }}
       >
         {rsvpData}
       </Modal>
