@@ -62,7 +62,6 @@ const Rsvp: React.FC = () => {
         toast.warning(successfulRsvp);
       }
     } catch (error) {
-      console.error(error.message);
       toast.error("Oops something went wrong. Please try again later.");
     }
   };

@@ -61,7 +61,6 @@ const GameInfo: React.FC = () => {
         toast.warning(successfulRsvp);
       }
     } catch (error) {
-      console.error(error.message);
       toast.error("Oops something went wrong. Please try again later.");
     }
   };
@@ -72,7 +71,7 @@ const GameInfo: React.FC = () => {
       <Box style={GlobalStyles.card}>
         <Box>
           <Typography align="center" variant="h4">
-            Next game is TBD
+            Next game is Saturday, Oct. 30th at 11:45am
           </Typography>
         </Box>
         <Typography align="center" variant="h5">
