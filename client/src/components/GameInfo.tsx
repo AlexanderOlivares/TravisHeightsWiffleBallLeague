@@ -17,15 +17,11 @@ const GameInfo: React.FC = () => {
   const [rsvp, setRsvp] = useState<string>("true");
   const [userEmail, setUserEmail] = useState<string>("");
 
-  const handleRadioButtons = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handleRadioButtons = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setRsvp((event.target as HTMLInputElement).value);
   };
 
-  const handleUserEmail = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handleUserEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setUserEmail(event.target.value);
   };
 
@@ -71,7 +67,10 @@ const GameInfo: React.FC = () => {
       <Box style={GlobalStyles.card}>
         <Box>
           <Typography align="center" variant="h4">
-            Next game is Saturday Nov. 13th at 4pm
+            Next game is TBD
+          </Typography>
+          <Typography align="center" variant="subtitle1">
+            Game dates for the upcoming season will be announced soon.
           </Typography>
         </Box>
         <Typography align="center" variant="h5">
@@ -132,8 +131,7 @@ const GameInfo: React.FC = () => {
           </Box>
           <Box style={GlobalStyles.div}>
             <Typography align="center" variant="h5">
-              We play at the Blunn Creek Greenbelt just south of Little Stacy
-              Park
+              We play at the Blunn Creek Greenbelt just south of Little Stacy Park
             </Typography>
             <Box m={2} id="map">
               <Map mapType={mapType} />
