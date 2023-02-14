@@ -4,7 +4,7 @@ import Map from "./Map";
 import ImageSlider from "./ImageSlider";
 import { Link } from "react-router-dom";
 import useMediaQuery from "./UseMediaQuery";
-import logo from "../Assets/logo.png";
+import wiffleNewLogo from "../Assets/wiffleNewLogo.png";
 
 const Home: React.FC = () => {
   const mobileViewPort: boolean = useMediaQuery("(max-width: 500px)");
@@ -14,31 +14,20 @@ const Home: React.FC = () => {
   return (
     <>
       <Container style={GlobalStyles.card} maxWidth="md">
-        <Box textAlign="center">
-          <img alt="Travis Hieights Wiffle Ball logo" src={logo}></img>
+        <Box pt={2} textAlign="center">
+          <img alt="Travis Hieights Wiffle Ball logo" src={wiffleNewLogo}></img>
         </Box>
         <Box>
           <Box my={2} textAlign="center">
-            <Button
-              style={GlobalStyles.button}
-              size="medium"
-              variant="contained"
-              color="secondary"
-            >
-              <Link
-                to="/join"
-                style={{ textDecoration: "none", color: "white" }}
-              >
+            <Button style={GlobalStyles.button} size="medium" variant="contained" color="secondary">
+              <Link to="/join" style={{ textDecoration: "none", color: "white" }}>
                 Join The League
               </Link>
             </Button>
           </Box>
         </Box>
         <Box style={GlobalStyles.div}>
-          <ImageSlider
-            mobileViewPort={mobileViewPort}
-            wideViewPort={wideViewPort}
-          />
+          <ImageSlider mobileViewPort={mobileViewPort} wideViewPort={wideViewPort} />
         </Box>
         <Box style={GlobalStyles.div}>
           <Typography align="center" variant="h5">
